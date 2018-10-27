@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_main"
+        android:icon="@mipmap/main"
+        android:title="@string/main_page" />
+    <item
+        android:icon="@mipmap/game"
+        android:id="@+id/item_game"
+        android:title="@string/game" />
+    <item
+        android:icon="@mipmap/software"
+        android:id="@+id/item_software"
+        android:title="@string/software" />
+    <item
+        android:icon="@mipmap/manager"
+        android:id="@+id/item_manager"
+        android:title="@string/manager" />
+
+</menu>

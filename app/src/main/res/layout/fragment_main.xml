@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="piratehat.appstore.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="9"
+            android:background="@drawable/et_shape"
+            android:drawableStart="@drawable/et_search"
+            android:focusable="false"
+            android:hint="@string/app_name"
+            android:paddingStart="5dp"
+            tools:ignore="RtlSymmetry" />
+
+        <ImageButton
+            android:id="@+id/btn_download"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/imb_download" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorEditGray" />
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/tool_bar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="?actionBarSize">-->
+    <!--<EditText-->
+    <!--android:id="@+id/et_search"-->
+    <!--android:drawableStart="@drawable/et_search"-->
+    <!--android:paddingStart="5dp"-->
+    <!--android:background="@color/colorEditGray"-->
+    <!--android:layout_width="200dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginStart="10dp"-->
+    <!--android:layout_marginEnd="60dp"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:hint="@string/app_name"-->
+    <!--tools:ignore="RtlSymmetry" />-->
+
+    <!--</android.support.v7.widget.Toolbar>-->
+
+
+</LinearLayout>

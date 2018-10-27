@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AppStore</string>
+    <string name="download">下载管理</string>
+    <string name="main_page">首页</string>
+    <string name="game">游戏</string>
+    <string name="software">软件</string>
+    <string name="manager">管理</string>
 </resources>
