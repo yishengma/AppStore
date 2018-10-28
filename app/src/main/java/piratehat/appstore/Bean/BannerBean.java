@@ -14,23 +14,26 @@ public class BannerBean {
         return mImageUrl == null ? "" : mImageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public BannerBean setImageUrl(String imageUrl) {
         mImageUrl = imageUrl;
+        return this;
     }
 
     public String getDetailUrl() {
         return mDetailUrl == null ? "" : mDetailUrl;
     }
 
-    public void setDetailUrl(String detailUrl) {
+    public BannerBean setDetailUrl(String detailUrl) {
         mDetailUrl = detailUrl;
+        return this;
     }
 
     public String getName() {
         return mName == null ? "" : mName;
     }
 
-    public void setName(String name) {
+    public BannerBean setName(String name) {
         mName = name;
+        return this;
     }
 }

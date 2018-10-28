@@ -8,10 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Call;
+import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.Bean.BannerBean;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
 import piratehat.appstore.contract.IMainContract;
+import piratehat.appstore.dto.AppsDataDto;
+import piratehat.appstore.utils.GsonUtil;
 import piratehat.appstore.utils.JsoupUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
@@ -38,6 +41,24 @@ public class MainModule implements IMainContract.IModel {
             @Override
             public void onResponse(String msg) {
                presenter.setBanner((ArrayList<BannerBean>) JsoupUtil.getInstance().getBanner(msg));
+            }
+
+        }, map);
+    }
+
+    @Override
+    public void getAllApps(final IMainContract.IPresenter presenter) {
+        Map<String, String> map = new HashMap<>();
+        map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
+        OkHttpUtil.getInstance().getAsync(Url.LOAD_MORE+20, new OkHttpResultCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+                presenter.showError(e.getMessage());
+            }
+
+            @Override
+            public void onResponse(String msg) {
+                presenter.setAppList((ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform());
             }
 
         }, map);

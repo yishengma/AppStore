@@ -7,9 +7,12 @@
     <color name="colorEditGray">#e5e5e5</color>
     <color name="colorDeepGray">#8b8b8b</color>
     <color name="colorBackgroundWhite">#fdfdfe</color>
-
+    <color name="colorDividerGray">#f4f4f4</color>
 
     <color name="colorPressOn">#000001</color>
     <color name="colorPressUp">#a9a9a9</color>
 
+    <color name="colorTextBlack">#060606</color>
+    <color name="colorTextGrey">#c9c8c8</color>
+    <color name="colorDownload">#509dfe</color>
 </resources>

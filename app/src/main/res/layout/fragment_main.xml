@@ -5,9 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorBackgroundWhite"
+
     tools:context="piratehat.appstore.MainActivity">
 
     <LinearLayout
+        android:background="@color/colorBackgroundWhite"
+
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:orientation="horizontal">
@@ -48,6 +52,14 @@
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_apps"
+        android:background="@color/colorBackgroundWhite"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
     <!--<android.support.v7.widget.Toolbar-->
     <!--android:id="@+id/tool_bar"-->
     <!--android:layout_width="match_parent"-->

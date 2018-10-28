@@ -2,6 +2,7 @@ package piratehat.appstore.presenter;
 
 import java.util.ArrayList;
 
+import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.Bean.BannerBean;
 import piratehat.appstore.contract.IMainContract;
 import piratehat.appstore.module.MainModule;
@@ -24,6 +25,7 @@ public class MainPresenter implements IMainContract.IPresenter {
     @Override
     public void getMainPage() {
         mIModel.getMainPage(this);
+        mIModel.getAllApps(this);
     }
 
     @Override
@@ -34,6 +36,11 @@ public class MainPresenter implements IMainContract.IPresenter {
             titles.add(beans.get(i).getName());
         }
         mIView.setBanner(beans, titles);
+    }
+
+    @Override
+    public void setAppList(ArrayList<AppBean> appBeans) {
+        mIView.setAppList(appBeans);
     }
 
     @Override
