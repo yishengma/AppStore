@@ -46,21 +46,6 @@ public class MainModule implements IMainContract.IModel {
         }, map);
     }
 
-    @Override
-    public void getAllApps(final IMainContract.IPresenter presenter) {
-        Map<String, String> map = new HashMap<>();
-        map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
-        OkHttpUtil.getInstance().getAsync(Url.LOAD_MORE+20, new OkHttpResultCallback() {
-            @Override
-            public void onError(Call call, Exception e) {
-                presenter.showError(e.getMessage());
-            }
 
-            @Override
-            public void onResponse(String msg) {
-                presenter.setAppList((ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform());
-            }
 
-        }, map);
-    }
 }

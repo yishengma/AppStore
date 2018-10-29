@@ -14,20 +14,19 @@ public interface IMainContract {
 
     interface IView{
         void setBanner(ArrayList<BannerBean> beans,ArrayList<String> titles);
-        void setAppList(ArrayList<AppBean> appBeans);
+
         void showError(String msg);
     }
 
     interface IModel{
         void getMainPage(IPresenter presenter);
-        void getAllApps(IPresenter presenter);
+
 
     }
 
     interface IPresenter{
         void getMainPage();
         void setBanner(ArrayList<BannerBean> beans);
-        void setAppList(ArrayList<AppBean> appBeans);
         void showError(String msg);
     }
 }

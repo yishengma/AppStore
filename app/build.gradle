@@ -35,6 +35,10 @@ dependencies {
     compile 'com.githang:status-bar-compat:0.7'
     compile 'com.youth.banner:banner:1.4.10'
     compile 'com.google.code.gson:gson:2.8.1'
+    compile 'com.shizhefei:MVCHelper-Library:1.3.2'
+    compile 'com.shizhefei:CoolRefreshView:1.0.1'
+    compile 'com.shizhefei:MVCHelper-CoolRefresh:1.3.2'
+
 
 
 }

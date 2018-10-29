@@ -52,14 +52,19 @@
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_apps"
+    <com.shizhefei.view.coolrefreshview.CoolRefreshView
+        android:id="@+id/crv_apps"
         android:background="@color/colorBackgroundWhite"
 
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+       <android.support.v7.widget.RecyclerView
+           android:id="@+id/rv_apps"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+       </android.support.v7.widget.RecyclerView>
+    </com.shizhefei.view.coolrefreshview.CoolRefreshView>
     <!--<android.support.v7.widget.Toolbar-->
     <!--android:id="@+id/tool_bar"-->
     <!--android:layout_width="match_parent"-->

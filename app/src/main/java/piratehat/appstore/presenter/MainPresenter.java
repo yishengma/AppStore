@@ -25,7 +25,7 @@ public class MainPresenter implements IMainContract.IPresenter {
     @Override
     public void getMainPage() {
         mIModel.getMainPage(this);
-        mIModel.getAllApps(this);
+
     }
 
     @Override
@@ -38,10 +38,7 @@ public class MainPresenter implements IMainContract.IPresenter {
         mIView.setBanner(beans, titles);
     }
 
-    @Override
-    public void setAppList(ArrayList<AppBean> appBeans) {
-        mIView.setAppList(appBeans);
-    }
+
 
     @Override
     public void showError(String msg) {

@@ -1,12 +1,16 @@
 package piratehat.appstore.Bean;
 
+import android.support.v7.util.DiffUtil;
+
 import piratehat.appstore.app.App;
 
 /**
+ *
  * Created by PirateHat on 2018/10/28.
  */
 
 public class AppBean {
+
 
     private String mIconUrl;
     private String mDownloadUrl;
@@ -17,6 +21,7 @@ public class AppBean {
     private String mpkgName;
     private String category;
     private String mIntro;
+
 
 
     public String getCategory() {
