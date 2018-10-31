@@ -31,7 +31,7 @@ import piratehat.appstore.adapter.AppsAdapter;
 import piratehat.appstore.contract.IMainContract;
 import piratehat.appstore.module.AppsDataSource;
 import piratehat.appstore.presenter.MainPresenter;
-import piratehat.appstore.utils.GlideImageLoader;
+
 
 /**
  *
@@ -46,14 +46,13 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
     EditText mEtSearch;
     @BindView(R.id.btn_download)
     ImageButton mBtnDownload;
-    @BindView(R.id.banner)
-    Banner mBanner;
+
     @BindView(R.id.crv_apps)
     CoolRefreshView mCrvApps;
     @BindView(R.id.rv_apps)
     RecyclerView mRvApps;
 
-
+    private AppsAdapter mAppsAdapter;
     private IMainContract.IPresenter mPresenter;
     private MVCHelper<List<AppBean>> mMVCHelper;
 
@@ -64,21 +63,18 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
 
     @Override
     protected void initData(Bundle bundle) {
-        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
-        mBanner.setImageLoader(new GlideImageLoader());
-        mBanner.setBannerAnimation(Transformer.DepthPage);
-        mBanner.isAutoPlay(true);
-        mBanner.setDelayTime(1500);
-        mBanner.setIndicatorGravity(BannerConfig.RIGHT);
 
-
-        mPresenter = new MainPresenter(this);
-        mPresenter.getMainPage();
 
         mRvApps.setLayoutManager(new LinearLayoutManager(mActivity));
         mMVCHelper = new MVCCoolHelper<>(mCrvApps);
         mMVCHelper.setDataSource(new AppsDataSource());
-        mMVCHelper.setAdapter(new AppsAdapter(mActivity));
+        mAppsAdapter = new AppsAdapter(mActivity);
+        mMVCHelper.setAdapter(mAppsAdapter);
+
+        mPresenter = new MainPresenter(this);
+        mPresenter.getMainPage();
+
+
         mMVCHelper.refresh();
 
     }
@@ -97,9 +93,7 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
 
     @Override
     public void setBanner(ArrayList<BannerBean> beans, ArrayList<String> titles) {
-        mBanner.setImages(beans);
-        mBanner.setBannerTitles(titles);
-        mBanner.start();
+       mAppsAdapter.startBanner(beans,titles);
     }
 
     @Override

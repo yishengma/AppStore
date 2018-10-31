@@ -59,4 +59,5 @@ public class AppsDataDto implements Mapper<List<AppBean>>{
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
 }

@@ -1,19 +1,24 @@
 package piratehat.appstore.adapter;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.shizhefei.mvc.IDataAdapter;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,28 +26,46 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import piratehat.appstore.Bean.AppBean;
+import piratehat.appstore.Bean.BannerBean;
 import piratehat.appstore.R;
+import piratehat.appstore.utils.GlideImageLoader;
 
 /**
- *
- *
  * Created by PirateHat on 2018/10/28.
  */
 
-public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewHolder> implements IDataAdapter<List<AppBean>> {
-    private List<AppBean> mAppBeans = new ArrayList<>();
+public class AppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IDataAdapter<List<AppBean>> {
+    private static final int sBANNER = 1;
+    private static final int sTAB_LAYOUT = 0;
+    private static final int sITEM = 2;
+
+
+    private List<AppBean> mAppBeans;
     private Context mContext;
 
+    private boolean mIsPlay;
+    private List<BannerBean> mBanners;
+    private List<String> mTitles;
+
+
     private static final String TAG = "AppsAdapter";
+
     public AppsAdapter(Context context) {
         super();
+        mAppBeans = new ArrayList<>();
+        mBanners = new ArrayList<>();
+        mTitles = new ArrayList<>();
         mContext = context;
+        mIsPlay = false;
+        mAppBeans.add(null);
+        mAppBeans.add(null);
+
     }
 
     @Override
     public void notifyDataChanged(List<AppBean> data, boolean isRefresh) {
         if (isRefresh) {
-            mAppBeans.clear();
+            mAppBeans.subList(2, mAppBeans.size()).clear();
         }
         mAppBeans.addAll(data);
         notifyDataSetChanged();
@@ -50,17 +73,55 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewHolder> im
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_app,parent,false));
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder viewHolder;
+        switch (viewType) {
+            case sTAB_LAYOUT:
+                viewHolder = new TabLayoutViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_main_navigation, parent, false));
+                break;
+            case sBANNER:
+                viewHolder =
+                        new BannerViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_banner, parent, false));
+
+                break;
+            case sITEM:
+                viewHolder = new ItemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_app, parent, false));
+                break;
+            default:
+                viewHolder = new ItemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_app, parent, false));
+                break;
+        }
+        return viewHolder;
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        if (holder instanceof BannerViewHolder && mBanners.size()!=0 &&mTitles.size()!=0 && !mIsPlay) {
+            ((BannerViewHolder) holder).mBanner.setImages(mBanners);
+            ((BannerViewHolder) holder).mBanner.setBannerTitles(mTitles);
+            ((BannerViewHolder) holder).mBanner.start();
+            mIsPlay = true;
+
+
+            return;
+        }
+
+        if (holder instanceof ItemViewHolder) {
+            AppBean appBean = mAppBeans.get(position);
+            Glide.with(mContext).load(appBean.getIconUrl()).into(((ItemViewHolder) holder).mImvIcon);
+            ((ItemViewHolder) holder).mTvName.setText(appBean.getName());
+            ((ItemViewHolder) holder).mTvInfo.setText(appBean.getIntro());
+            ((ItemViewHolder) holder).mTvHot.setText(appBean.getHot() + appBean.getAppSize());
+
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        AppBean appBean = mAppBeans.get(position);
-        Glide.with(mContext).load(appBean.getIconUrl()).into(holder.mImvIcon);
-        holder.mTvName.setText(appBean.getName());
-        holder.mTvInfo.setText(appBean.getIntro());
-        holder.mTvHot.setText(appBean.getHot() + appBean.getAppSize());
+    public int getItemViewType(int position) {
+        return position >= 2 ? 2 : position;
     }
 
     @Override
@@ -70,7 +131,7 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewHolder> im
 
     @Override
     public boolean isEmpty() {
-        return mAppBeans.size()==0;
+        return mAppBeans.size() == 0;
     }
 
     @Override
@@ -78,8 +139,12 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewHolder> im
         return mAppBeans;
     }
 
+    public void startBanner(ArrayList<BannerBean> beans, ArrayList<String> titles) {
+        mBanners.addAll(beans);
+        mTitles.addAll(titles);
+    }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ItemViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imv_icon)
         ImageView mImvIcon;
         @BindView(R.id.tv_name)
@@ -91,9 +156,40 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.ViewHolder> im
         @BindView(R.id.btn_download)
         TextView mBtnDownload;
 
-        ViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+    }
+
+    static class BannerViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.banner)
+        Banner mBanner;
+
+        BannerViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
+            mBanner.setImageLoader(new GlideImageLoader());
+            mBanner.setBannerAnimation(Transformer.DepthPage);
+            mBanner.isAutoPlay(true);
+            mBanner.setDelayTime(1500);
+            mBanner.setIndicatorGravity(BannerConfig.RIGHT);
+
+        }
+    }
+
+    static class TabLayoutViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tl_navigation)
+        TabLayout mTlNavigation;
+
+        TabLayoutViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            mTlNavigation.addTab(mTlNavigation.newTab().setIcon(R.drawable.tab_category).setText("分类"));
+            mTlNavigation.addTab(mTlNavigation.newTab().setIcon(R.drawable.tab_rank).setText("榜单"));
+            mTlNavigation.addTab(mTlNavigation.newTab().setIcon(R.drawable.tab_tencent).setText("腾讯"));
+            mTlNavigation.addTab(mTlNavigation.newTab().setIcon(R.drawable.tab_great).setText("精品"));
         }
     }
 }

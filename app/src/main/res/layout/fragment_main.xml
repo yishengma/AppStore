@@ -47,17 +47,12 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/colorEditGray" />
-
-    <com.youth.banner.Banner
-        android:id="@+id/banner"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
     <com.shizhefei.view.coolrefreshview.CoolRefreshView
         android:id="@+id/crv_apps"
         android:background="@color/colorBackgroundWhite"
-
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
        <android.support.v7.widget.RecyclerView
            android:id="@+id/rv_apps"
            android:layout_width="match_parent"

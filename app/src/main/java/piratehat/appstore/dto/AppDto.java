@@ -1,5 +1,8 @@
 package piratehat.appstore.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 import piratehat.appstore.Bean.AppBean;
@@ -11,7 +14,7 @@ import piratehat.appstore.utils.UnitUtil;
  * Created by PirateHat on 2018/10/28.
  */
 
-public class AppDto implements Mapper<AppBean> {
+public class AppDto implements Mapper<AppBean> , Parcelable{
 
     private String apkUrl;
     private long appDownCount;
@@ -138,5 +141,15 @@ public class AppDto implements Mapper<AppBean> {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }
