@@ -1,6 +1,10 @@
 package piratehat.appstore.Bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.util.DiffUtil;
+
+import java.io.Serializable;
 
 import piratehat.appstore.app.App;
 
@@ -9,7 +13,7 @@ import piratehat.appstore.app.App;
  * Created by PirateHat on 2018/10/28.
  */
 
-public class AppBean {
+public class AppBean implements Serializable{
 
 
     private String mIconUrl;
@@ -104,6 +108,8 @@ public class AppBean {
         mHot = hot;
         return this;
     }
+
+
 
     @Override
     public String toString() {

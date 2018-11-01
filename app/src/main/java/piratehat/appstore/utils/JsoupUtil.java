@@ -9,7 +9,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.Bean.BannerBean;
@@ -66,6 +68,91 @@ public class JsoupUtil {
         return bannerBeans;
     }
 
+    public Map<String, List<AppBean>> getRankApps(String s) {
+        Document document = Jsoup.parse(s);
+        Element root = document.getElementsByClass("ind-week-rank").first();
+        Element ul = root.getElementById("J_RankTabBody");
+        Elements li = ul.children();
+        Map<String, List<AppBean>> listMap = new HashMap<>();
+        initAppsMap(listMap);
+        for (int i = 0, size = li.size(); i < size; i++) {
+
+            Element ul1 = li.get(i).getElementsByClass("rank-body T_RankBody").first();
+            Elements li1 = ul1.getElementsByTag("li");
+            for (Element e : li1) {
+                addWeekRankApps(i, listMap, createWeekApp(e));
+            }
+
+        }
+
+        Elements ind_rank = document.getElementsByClass("ind-rank");
+
+        for (int i = 0, size = ind_rank.size(); i < size; i++) {
+              createIndApp(i,listMap,ind_rank.get(i));
+        }
+
+        return listMap;
+    }
+
+    private void addWeekRankApps(int i, Map<String, List<AppBean>> map, AppBean appBean) {
+        if (i == 0) {
+            map.get("游戏下载").add(appBean);
+        } else {
+            map.get("软件下载").add(appBean);
+        }
+    }
+
+    private void createIndApp(int i,Map<String, List<AppBean>> map,Element div) {
+        Element ul = div.getElementsByClass("rank-body T_RankBody").first();
+        Elements li1 = ul.children();
+        for (Element e : li1) {
+            addRankAppBean(i, map, createWeekApp(e));
+        }
+
+    }
+
+    private void addRankAppBean(int i, Map<String, List<AppBean>> map, AppBean appBean) {
+        if (i == 0) {
+            map.get("棋牌游戏").add(appBean);
+        } else if (i == 1) {
+            map.get("动作游戏").add(appBean);
+        } else {
+            map.get("社交软件").add(appBean);
+        }
+    }
+
+    private AppBean createWeekApp(Element element) {
+        AppBean appBean = new AppBean();
+        Element div = element.getElementsByClass("rank-info").first();
+
+        Element div1 = div.getElementsByClass("down-count").first();
+
+        Element span = div1.getElementsByTag("span").first();
+        appBean.setHot(span.text());
+
+        Element div2 = div.getElementsByClass("hover-ins-btn-box T_HoverInsBtnBox").first();
+
+        Element a = div2.getElementsByTag("a").first();
+
+        appBean.setDownloadUrl(a.attr("ex_url"));
+        appBean.setName(a.attr("appname"));
+        appBean.setMpkgName(a.attr("apk"));
+        appBean.setIconUrl(a.attr("appicon"));
+
+        return appBean;
+
+
+    }
+
+    private void initAppsMap(Map<String, List<AppBean>> map) {
+        String[] msg = new String[]{"游戏下载", "软件下载", "棋牌游戏", "动作游戏", "社交软件"};
+        for (int i = 0; i < 5; i++) {
+            ArrayList<AppBean> list = new ArrayList<>();
+            map.put(msg[i], list);
+        }
+
+    }
+
     public List<AppBean> getApplications(String s) {
         Document document = Jsoup.parse(s);
         Element ul = document.getElementsByClass("app-list clearfix").first();
@@ -88,7 +175,6 @@ public class JsoupUtil {
             Element a2 = div1.getElementsByTag("a").get(2);
 
 
-
             AppBean appBean = new AppBean();
             appBean.setName(a1.text());
             appBean.setDetailUrl(a1.attr("href"));
@@ -100,11 +186,11 @@ public class JsoupUtil {
             beans.add(appBean);
 
 
-
-
         }
 
 
         return beans;
     }
+
+
 }

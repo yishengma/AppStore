@@ -2,40 +2,36 @@ package piratehat.appstore.fragment;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.shizhefei.mvc.MVCCoolHelper;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.view.coolrefreshview.CoolRefreshView;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.Transformer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.Bean.BannerBean;
+import piratehat.appstore.Bean.SerializableMap;
 import piratehat.appstore.R;
-import piratehat.appstore.adapter.AppsAdapter;
+import piratehat.appstore.adapter.MainAppsAdapter;
 import piratehat.appstore.contract.IMainContract;
 import piratehat.appstore.module.AppsDataSource;
 import piratehat.appstore.presenter.MainPresenter;
+import piratehat.appstore.ui.RankActivity;
 
 
 /**
- *
- *
  * Created by PirateHat on 2018/10/27.
  */
 
@@ -52,9 +48,10 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
     @BindView(R.id.rv_apps)
     RecyclerView mRvApps;
 
-    private AppsAdapter mAppsAdapter;
+    private MainAppsAdapter mAppsAdapter;
     private IMainContract.IPresenter mPresenter;
     private MVCHelper<List<AppBean>> mMVCHelper;
+    private Map<String, List<AppBean>> mMap;
 
     @Override
     protected int setLayoutResId() {
@@ -68,14 +65,13 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
         mRvApps.setLayoutManager(new LinearLayoutManager(mActivity));
         mMVCHelper = new MVCCoolHelper<>(mCrvApps);
         mMVCHelper.setDataSource(new AppsDataSource());
-        mAppsAdapter = new AppsAdapter(mActivity);
+        mAppsAdapter = new MainAppsAdapter(mActivity);
         mMVCHelper.setAdapter(mAppsAdapter);
-
+        mMap = new HashMap<>();
         mPresenter = new MainPresenter(this);
         mPresenter.getMainPage();
-
-
         mMVCHelper.refresh();
+
 
     }
 
@@ -87,13 +83,38 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
 
     @Override
     protected void initListener() {
+        mAppsAdapter.setTabListener(new MainAppsAdapter.OnTabClickListener() {
+            @Override
+            public void click(int id) {
+                switch (id) {
+                    case 0:
+                        break;
+                    case R.id.tab_rank:
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("map", new SerializableMap(mMap));
+                        RankActivity.actionStart(mActivity, bundle);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
 
     }
 
+    @Override
+    public void setRankApps(Map<String, List<AppBean>> beans) {
+        mMap = beans;
+    }
 
     @Override
     public void setBanner(ArrayList<BannerBean> beans, ArrayList<String> titles) {
-       mAppsAdapter.startBanner(beans,titles);
+        mAppsAdapter.startBanner(beans, titles);
     }
 
     @Override

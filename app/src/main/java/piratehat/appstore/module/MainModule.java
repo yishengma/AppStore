@@ -41,6 +41,7 @@ public class MainModule implements IMainContract.IModel {
             @Override
             public void onResponse(String msg) {
                presenter.setBanner((ArrayList<BannerBean>) JsoupUtil.getInstance().getBanner(msg));
+               presenter.setRankApps((JsoupUtil.getInstance().getRankApps(msg)));
             }
 
         }, map);

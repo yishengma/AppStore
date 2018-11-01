@@ -1,6 +1,8 @@
 package piratehat.appstore.presenter;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.Bean.BannerBean;
@@ -38,7 +40,10 @@ public class MainPresenter implements IMainContract.IPresenter {
         mIView.setBanner(beans, titles);
     }
 
-
+    @Override
+    public void setRankApps(Map<String, List<AppBean>> beans) {
+        mIView.setRankApps(beans);
+    }
 
     @Override
     public void showError(String msg) {

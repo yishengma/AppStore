@@ -6,4 +6,6 @@
     <string name="software">软件</string>
     <string name="manager">管理</string>
     <string name="download">下载</string>
+    <string name="search">搜索</string>
+
 </resources>

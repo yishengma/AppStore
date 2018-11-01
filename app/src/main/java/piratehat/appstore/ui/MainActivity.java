@@ -1,4 +1,4 @@
-package piratehat.appstore;
+package piratehat.appstore.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import com.githang.statusbar.StatusBarCompat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import piratehat.appstore.R;
 import piratehat.appstore.adapter.ViewPagerAdapter;
 import piratehat.appstore.fragment.GameFragment;
 import piratehat.appstore.fragment.MainFragment;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListener() {
+
+
         mBnvNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
