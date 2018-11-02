@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="85dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_category"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_above="@+id/view_center"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/tab_great" />
+
+            <View
+                android:id="@+id/view_center"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:id="@+id/tv_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_center"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dp"
+                android:text="视频"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <GridView
+            android:id="@+id/gv_detail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:numColumns="3"
+            android:stretchMode="spacingWidthUniform">
+
+        </GridView>
+    </LinearLayout>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorDividerGray"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+</RelativeLayout>

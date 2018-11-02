@@ -28,6 +28,7 @@ import piratehat.appstore.adapter.MainAppsAdapter;
 import piratehat.appstore.contract.IMainContract;
 import piratehat.appstore.module.AppsDataSource;
 import piratehat.appstore.presenter.MainPresenter;
+import piratehat.appstore.ui.CategoryActivity;
 import piratehat.appstore.ui.RankActivity;
 
 
@@ -87,7 +88,8 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
             @Override
             public void click(int id) {
                 switch (id) {
-                    case 0:
+                    case R.id.tab_category:
+                        CategoryActivity.actionStart(mActivity);
                         break;
                     case R.id.tab_rank:
                         Bundle bundle = new Bundle();

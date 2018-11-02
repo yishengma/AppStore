@@ -7,26 +7,19 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.githang.statusbar.StatusBarCompat;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import piratehat.appstore.Bean.AppBean;
-import piratehat.appstore.Bean.SerializableMap;
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.ViewPagerAdapter;
-import piratehat.appstore.fragment.RankFragment;
+import piratehat.appstore.fragment.CategoryFragment;
 
-public class RankActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity {
+
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
     @BindView(R.id.tl_navigation)
@@ -34,21 +27,11 @@ public class RankActivity extends AppCompatActivity {
     @BindView(R.id.vp_content)
     ViewPager mVpContent;
 
-
-    private static final String TAG = "RankActivity";
-    private Map mAppsMap;
-
-    //应用下载
-    //游戏下载
-    //动作游戏
-    //棋牌游戏
-    //社交软件
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rank);
+        setContentView(R.layout.activity_category);
         ButterKnife.bind(this);
-        initData();
         initView();
     }
 
@@ -58,29 +41,17 @@ public class RankActivity extends AppCompatActivity {
         setSupportActionBar(mToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mToolBar.setTitle("榜单");
+        mToolBar.setTitle("分类");
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get("游戏下载")));
-        viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get("软件下载")));
-        viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get("动作游戏")));
-        viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get("棋牌游戏")));
-        viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get("社交软件")));
+        viewPagerAdapter.addFragment(CategoryFragment.newInstance(CategoryFragment.sSOFTWARE));
+        viewPagerAdapter.addFragment(CategoryFragment.newInstance(CategoryFragment.sGAMES));
         mVpContent.setAdapter(viewPagerAdapter);
         mTlNavigation.setupWithViewPager(mVpContent);
 
-        mTlNavigation.getTabAt(0).setText("游戏下载");
-        mTlNavigation.getTabAt(1).setText("软件下载");
-        mTlNavigation.getTabAt(2).setText("动作游戏");
-        mTlNavigation.getTabAt(3).setText("棋牌游戏");
-        mTlNavigation.getTabAt(4).setText("社交软件");
 
-
-    }
-
-    private void initData() {
-
-        mAppsMap = ((SerializableMap) getIntent().getBundleExtra("bundle").getSerializable("map")).getMap();
+        mTlNavigation.getTabAt(0).setText("软件");
+        mTlNavigation.getTabAt(1).setText("游戏");
 
 
     }
@@ -111,14 +82,13 @@ public class RankActivity extends AppCompatActivity {
 
     }
 
-
     public static void actionStart(Context context) {
-        Intent intent = new Intent(context, RankActivity.class);
+        Intent intent = new Intent(context, CategoryActivity.class);
         context.startActivity(intent);
     }
 
     public static void actionStart(Context context, Bundle bundle) {
-        Intent intent = new Intent(context, RankActivity.class);
+        Intent intent = new Intent(context, CategoryActivity.class);
         intent.putExtra("bundle", bundle);
         context.startActivity(intent);
     }

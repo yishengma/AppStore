@@ -2,6 +2,8 @@ package piratehat.appstore.fragment;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
+
 import piratehat.appstore.R;
 
 /**
@@ -29,4 +31,6 @@ public class GameFragment extends BaseFragment {
     protected void initListener() {
 
     }
+
+
 }
