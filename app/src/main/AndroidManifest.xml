@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.RankActivity" />
-        <activity android:name=".ui.CategoryActivity"></activity>
+        <activity android:name=".ui.CategoryActivity" />
+        <activity android:name=".ui.CategoryDetailsActivity"></activity>
     </application>
 
 </manifest>

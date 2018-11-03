@@ -153,6 +153,44 @@ public class JsoupUtil {
 
     }
 
+    public List<AppBean> getCategoryApps(String s){
+        Document document = Jsoup.parse(s);
+        Elements apps  = document.getElementsByClass("search-boutique-app-box");
+        ArrayList<AppBean> beans = new ArrayList<>();
+        for (Element app:apps) {
+            AppBean bean = new AppBean();
+            Element icon = app.getElementsByClass("icon").first();
+            Element img = icon.getElementsByTag("img").first();
+            bean.setIconUrl(img.attr("src"));
+
+            Element name = app.getElementsByClass("appName").first();
+            bean.setName(name.text());
+
+            Element download = app.getElementsByClass("down-line").first();
+            bean.setHot(download.text());
+
+            Element size = app.getElementsByClass("size-line").first();
+
+            Elements sizeDetail = size.getElementsByTag("span");
+            for (Element element:sizeDetail) {
+                bean.setAppSize(bean.getAppSize()+"&"+element.text());
+            }
+
+            Element recommend =app.getElementsByClass("recommend-hidden-box").first();
+            bean.setIntro(recommend.text());
+
+            Element downUrl = app.getElementsByClass("installBtn").first();
+            bean.setDownloadUrl(downUrl.attr("ex_url"));
+            bean.setMpkgName(downUrl.attr("apk"));
+
+            beans.add(bean);
+
+
+            Log.e(TAG, "getCategoryApps: "+bean);
+
+        }
+        return beans;
+    }
     public List<AppBean> getApplications(String s) {
         Document document = Jsoup.parse(s);
         Element ul = document.getElementsByClass("app-list clearfix").first();

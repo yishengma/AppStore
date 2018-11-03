@@ -27,6 +27,31 @@ public class AppDto implements Mapper<AppBean> , Parcelable{
     private List<String> images;
     private String categoryName;
 
+    private AppDto(Parcel in) {
+        apkUrl = in.readString();
+        appDownCount = in.readLong();
+        appName = in.readString();
+        iconUrl = in.readString();
+        pkgName = in.readString();
+        averageRating = in.readDouble();
+        editorIntro = in.readString();
+        fileSize = in.readLong();
+        images = in.createStringArrayList();
+        categoryName = in.readString();
+    }
+
+    public static final Creator<AppDto> CREATOR = new Creator<AppDto>() {
+        @Override
+        public AppDto createFromParcel(Parcel in) {
+            return new AppDto(in);
+        }
+
+        @Override
+        public AppDto[] newArray(int size) {
+            return new AppDto[size];
+        }
+    };
+
     @Override
     public AppBean transform() {
         AppBean bean = new AppBean();
@@ -150,6 +175,15 @@ public class AppDto implements Mapper<AppBean> , Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(apkUrl);
+        dest.writeLong(appDownCount);
+        dest.writeString(appName);
+        dest.writeString(iconUrl);
+        dest.writeString(pkgName);
+        dest.writeDouble(averageRating);
+        dest.writeString(editorIntro);
+        dest.writeLong(fileSize);
+        dest.writeStringList(images);
+        dest.writeString(categoryName);
     }
 }

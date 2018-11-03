@@ -1,5 +1,7 @@
 package piratehat.appstore.presenter;
 
+import com.shizhefei.mvc.IAsyncDataSource;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +9,7 @@ import java.util.Map;
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.Bean.BannerBean;
 import piratehat.appstore.contract.IMainContract;
+import piratehat.appstore.module.MainAppsModel;
 import piratehat.appstore.module.MainModule;
 
 /**
@@ -48,5 +51,10 @@ public class MainPresenter implements IMainContract.IPresenter {
     @Override
     public void showError(String msg) {
         mIView.showError(msg);
+    }
+
+    @Override
+    public IAsyncDataSource getRefreshData() {
+        return new MainAppsModel();
     }
 }

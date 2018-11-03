@@ -8,6 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="80dp">
         <RelativeLayout
+            android:focusable="true"
+            android:clickable="true"
+            android:id="@+id/rl_kind"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -45,8 +48,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
+            android:stretchMode="columnWidth"
             android:numColumns="3"
-            android:stretchMode="spacingWidthUniform">
+           >
 
         </GridView>
     </LinearLayout>

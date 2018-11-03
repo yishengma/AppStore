@@ -1,5 +1,8 @@
 package piratehat.appstore.contract;
 
+import com.shizhefei.mvc.IAsyncDataSource;
+import com.shizhefei.mvc.IDataSource;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,5 +35,6 @@ public interface IMainContract {
         void setBanner(ArrayList<BannerBean> beans);
         void setRankApps(Map<String,List<AppBean>> beans);
         void showError(String msg);
+        IAsyncDataSource getRefreshData();
     }
 }

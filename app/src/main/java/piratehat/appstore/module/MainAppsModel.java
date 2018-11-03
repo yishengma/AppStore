@@ -26,12 +26,12 @@ import piratehat.appstore.utils.OkHttpUtil;
  * Created by PirateHat on 2018/10/29.
  */
 
-public class AppsDataSource implements IAsyncDataSource<List<AppBean>> {
+public class MainAppsModel implements IAsyncDataSource<List<AppBean>> {
      private int mPageContext ;
      private boolean mHasMore;
 
 
-    private static final String TAG = "AppsDataSource";
+    private static final String TAG = "MainAppsModel";
     @Override
     public RequestHandle refresh(ResponseSender<List<AppBean>> sender) {
         mPageContext = 20;

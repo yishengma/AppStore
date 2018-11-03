@@ -2,7 +2,6 @@ package piratehat.appstore.fragment;
 
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
@@ -12,7 +11,6 @@ import com.shizhefei.mvc.MVCCoolHelper;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.view.coolrefreshview.CoolRefreshView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,13 +24,13 @@ import piratehat.appstore.Bean.SerializableMap;
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.MainAppsAdapter;
 import piratehat.appstore.contract.IMainContract;
-import piratehat.appstore.module.AppsDataSource;
 import piratehat.appstore.presenter.MainPresenter;
 import piratehat.appstore.ui.CategoryActivity;
 import piratehat.appstore.ui.RankActivity;
 
 
 /**
+ *
  * Created by PirateHat on 2018/10/27.
  */
 
@@ -62,14 +60,13 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
     @Override
     protected void initData(Bundle bundle) {
 
-
+        mPresenter = new MainPresenter(this);
         mRvApps.setLayoutManager(new LinearLayoutManager(mActivity));
         mMVCHelper = new MVCCoolHelper<>(mCrvApps);
-        mMVCHelper.setDataSource(new AppsDataSource());
+        mMVCHelper.setDataSource(mPresenter.getRefreshData());
         mAppsAdapter = new MainAppsAdapter(mActivity);
         mMVCHelper.setAdapter(mAppsAdapter);
         mMap = new HashMap<>();
-        mPresenter = new MainPresenter(this);
         mPresenter.getMainPage();
         mMVCHelper.refresh();
 

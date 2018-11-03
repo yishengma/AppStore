@@ -37,6 +37,7 @@ public class RankActivity extends AppCompatActivity {
 
     private static final String TAG = "RankActivity";
     private Map mAppsMap;
+    public static final String[] sRANK = new String[]{"游戏下载", "软件下载", "动作游戏", "棋牌游戏", "社交软件"};
 
     //应用下载
     //游戏下载
@@ -61,19 +62,16 @@ public class RankActivity extends AppCompatActivity {
         mToolBar.setTitle("榜单");
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get("游戏下载")));
-        viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get("软件下载")));
-        viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get("动作游戏")));
-        viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get("棋牌游戏")));
-        viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get("社交软件")));
+        for (int i = 0; i < sRANK.length; i++) {
+            viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get(sRANK[i])));
+        }
+
         mVpContent.setAdapter(viewPagerAdapter);
         mTlNavigation.setupWithViewPager(mVpContent);
 
-        mTlNavigation.getTabAt(0).setText("游戏下载");
-        mTlNavigation.getTabAt(1).setText("软件下载");
-        mTlNavigation.getTabAt(2).setText("动作游戏");
-        mTlNavigation.getTabAt(3).setText("棋牌游戏");
-        mTlNavigation.getTabAt(4).setText("社交软件");
+        for (int i = 0; i < sRANK.length; i++) {
+            mTlNavigation.getTabAt(i).setText(sRANK[i]);
+        }
 
 
     }
