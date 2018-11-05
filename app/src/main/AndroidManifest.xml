@@ -22,7 +22,8 @@
         </activity>
         <activity android:name=".ui.RankActivity" />
         <activity android:name=".ui.CategoryActivity" />
-        <activity android:name=".ui.CategoryDetailsActivity"></activity>
+        <activity android:name=".ui.CategoryDetailsActivity" />
+        <activity android:name=".ui.TencentActivity"></activity>
     </application>
 
 </manifest>

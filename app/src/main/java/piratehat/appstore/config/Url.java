@@ -1,15 +1,12 @@
 package piratehat.appstore.config;
 
 /**
- *
- *
  * Created by PirateHat on 2018/10/27.
  */
 
 public class Url {
     //广场的
     public static final String MAIN_PAGE = "https://sj.qq.com/myapp/";
-
 
 
     //获取所有的应用的信息
@@ -20,10 +17,13 @@ public class Url {
     public static final String CATEGORY = "https://android.myapp.com/myapp/searchAjax.htm?kw=";
 
     public static final String[] MORE_MODE = new String[]{"&pns=&sid="
-    ,"&pns=MTA=&sid=0",
+            , "&pns=MTA=&sid=0",
             "&pns=MjA=&sid=0",
             "&pns=MzA=&sid=0",
             "&pns=NDA=&sid=0",
             "&pns=NTA=&sid=0",
             "&pns=NjA=&sid=0"};
+    // 腾讯的种类
+    public static final String TENCENT_PAGE = "https://sj.qq.com/myapp/cate/appList.htm?orgame=1&categoryId=-10&pageSize=20&pageContext=";
+
 }

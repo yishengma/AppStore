@@ -27,6 +27,7 @@ import piratehat.appstore.contract.IMainContract;
 import piratehat.appstore.presenter.MainPresenter;
 import piratehat.appstore.ui.CategoryActivity;
 import piratehat.appstore.ui.RankActivity;
+import piratehat.appstore.ui.TencentActivity;
 
 
 /**
@@ -93,7 +94,9 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
                         bundle.putSerializable("map", new SerializableMap(mMap));
                         RankActivity.actionStart(mActivity, bundle);
                         break;
-                    case 2:
+                    case R.id.tab_tencent:
+
+                        TencentActivity.actionStart(mActivity,TencentActivity.class);
                         break;
                     case 3:
                         break;
