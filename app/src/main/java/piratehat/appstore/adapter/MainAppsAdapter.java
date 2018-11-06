@@ -4,7 +4,6 @@ package piratehat.appstore.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -192,8 +191,8 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         LinearLayout mRank;
         @BindView(R.id.tab_tencent)
         LinearLayout mTencent;
-        @BindView(R.id.tab_great)
-        LinearLayout mGreat;
+        @BindView(R.id.tab_boutique)
+        LinearLayout mBoutique;
 
 
         NavigationViewHolder(View itemView) {
@@ -203,17 +202,17 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((ImageView)mCategory.getChildAt(0)).setImageResource(R.drawable.tab_category);
             ((ImageView)mRank.getChildAt(0)).setImageResource(R.drawable.tab_rank);
             ((ImageView)mTencent.getChildAt(0)).setImageResource(R.drawable.tab_tencent);
-            ((ImageView)mGreat.getChildAt(0)).setImageResource(R.drawable.tab_great);
+            ((ImageView)mBoutique.getChildAt(0)).setImageResource(R.drawable.tab_boutique);
 
             ((TextView)mCategory.getChildAt(1)).setText("分类");
             ((TextView)mRank.getChildAt(1)).setText("榜单");
             ((TextView)mTencent.getChildAt(1)).setText("腾讯");
-            ((TextView)mGreat.getChildAt(1)).setText("精品");
+            ((TextView)mBoutique.getChildAt(1)).setText("精品");
 
             mCategory.setOnClickListener(this);
             mRank.setOnClickListener(this);
             mTencent.setOnClickListener(this);
-            mGreat.setOnClickListener(this);
+            mBoutique.setOnClickListener(this);
 
 
         }

@@ -10,7 +10,7 @@
 
     <include layout="@layout/include_tab" android:id="@+id/tab_tencent"/>
 
-    <include layout="@layout/include_tab" android:id="@+id/tab_great"/>
+    <include layout="@layout/include_tab" android:id="@+id/tab_boutique"/>
 
 
 </LinearLayout>

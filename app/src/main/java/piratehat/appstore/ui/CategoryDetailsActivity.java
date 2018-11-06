@@ -1,21 +1,16 @@
 package piratehat.appstore.ui;
 
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.LinearLayout;
 
 import com.githang.statusbar.StatusBarCompat;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.ViewPagerAdapter;
-import piratehat.appstore.fragment.AppsFragment;
-import piratehat.appstore.fragment.CategoryFragment;
+import piratehat.appstore.fragment.RefreshAppsFragment;
 
 public class CategoryDetailsActivity extends BaseActivity {
 
@@ -58,9 +53,9 @@ public class CategoryDetailsActivity extends BaseActivity {
         mToolBar.setTitle(mCategory);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        viewPagerAdapter.addFragment(AppsFragment.newInstance(mCategory));
+        viewPagerAdapter.addFragment(RefreshAppsFragment.newInstance(mCategory));
         for (int i = 0; i < mDetails.length; i++) {
-            viewPagerAdapter.addFragment(AppsFragment.newInstance(mDetails[i]));
+            viewPagerAdapter.addFragment(RefreshAppsFragment.newInstance(mDetails[i]));
         }
 
         mVpContent.setAdapter(viewPagerAdapter);

@@ -15,7 +15,7 @@
         android:layout_height="30dp"
         android:layout_gravity="center"
         android:paddingTop="5dp"
-        android:src="@drawable/tab_great" />
+        android:src="@drawable/tab_boutique" />
 
     <TextView
         android:id="@+id/tab_tv"

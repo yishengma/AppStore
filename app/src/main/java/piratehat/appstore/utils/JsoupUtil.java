@@ -1,6 +1,7 @@
 package piratehat.appstore.utils;
 
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.util.Log;
 
 import org.jsoup.Jsoup;
@@ -88,7 +89,7 @@ public class JsoupUtil {
         Elements ind_rank = document.getElementsByClass("ind-rank");
 
         for (int i = 0, size = ind_rank.size(); i < size; i++) {
-              createIndApp(i,listMap,ind_rank.get(i));
+            createIndApp(i, listMap, ind_rank.get(i));
         }
 
         return listMap;
@@ -102,7 +103,7 @@ public class JsoupUtil {
         }
     }
 
-    private void createIndApp(int i,Map<String, List<AppBean>> map,Element div) {
+    private void createIndApp(int i, Map<String, List<AppBean>> map, Element div) {
         Element ul = div.getElementsByClass("rank-body T_RankBody").first();
         Elements li1 = ul.children();
         for (Element e : li1) {
@@ -153,82 +154,107 @@ public class JsoupUtil {
 
     }
 
-    public List<AppBean> getCategoryApps(String s){
-        Document document = Jsoup.parse(s);
-        Elements apps  = document.getElementsByClass("search-boutique-app-box");
-        ArrayList<AppBean> beans = new ArrayList<>();
-        for (Element app:apps) {
+    public Map getBoutiqueApps(String msg) {
+        Map<String,List<AppBean>> map = new HashMap<>();
+        Document document = Jsoup.parse(msg);
+        getBoutiqueApp(map,document);
+        getBoutiqueGame(map,document);
+        getCategoryBody(map,document);
+        getUnion(map,document);
+        return map;
+
+    }
+
+    private void getBoutiqueApp(Map map, Document document) {
+        List<AppBean> beans = new ArrayList<>();
+        Element box = document.getElementsByClass("boutique-app-box").first();
+        Elements apps = box.getElementsByClass("com-vertical-app");
+        for (Element app : apps) {
+            beans.add(createApp(app));
+        }
+        map.put("精品游戏", beans);
+    }
+
+    private void getBoutiqueGame(Map map, Document document) {
+        List<AppBean> beans = new ArrayList<>();
+        Element box = document.getElementsByClass("ind-boutique-game").first();
+        Elements apps = box.getElementsByClass("com-vertical-app");
+        for (Element app : apps) {
+            beans.add(createApp(app));
+        }
+        map.put("精品软件", beans);
+    }
+
+
+    private AppBean createApp(Element app) {
+        AppBean appBean = new AppBean();
+        Element div = app.getElementsByClass("com-vertical-type").first();
+
+        appBean.setIntro(div.text());
+
+        Element a = app.getElementsByClass("T_ComEventAppIns com-install-btn").first();
+
+        appBean.setDownloadUrl(a.attr("ex_url"))
+                .setName(a.attr("appname"))
+                .setMpkgName(a.attr("apk"))
+                .setIconUrl(a.attr("appicon"));
+        return appBean;
+    }
+
+
+    private void getCategoryBody(Map map, Document document) {
+        Element div = document.getElementsByClass("category-tab-body").first();
+        Elements lis = div.getElementsByTag("li");
+        String[] titles = new String[]{"角色扮演", "生活", "理财", "社交"};
+        for (int i = 0, size = lis.size(); i < size; i++) {
+            map.put(titles[i], createBodys(lis.get(i)));
+        }
+    }
+
+    private List<AppBean> createBodys(Element li) {
+        Elements div = li.getElementsByClass("com-crosswise-app");
+        List<AppBean> beans = new ArrayList<>();
+        for (Element comApp : div) {
             AppBean bean = new AppBean();
-            Element icon = app.getElementsByClass("icon").first();
-            Element img = icon.getElementsByTag("img").first();
-            bean.setIconUrl(img.attr("src"));
+            Element info = comApp.getElementsByClass("app-info").first();
 
-            Element name = app.getElementsByClass("appName").first();
-            bean.setName(name.text());
+            Element downcount = info.getElementsByClass("down-count").first();
 
-            Element download = app.getElementsByClass("down-line").first();
-            bean.setHot(download.text());
+            bean.setHot(downcount.text());
 
-            Element size = app.getElementsByClass("size-line").first();
+            Element a = comApp.getElementsByClass("T_ComEventAppIns com-install-btn").first();
 
-            Elements sizeDetail = size.getElementsByTag("span");
-            for (Element element:sizeDetail) {
-                bean.setAppSize(bean.getAppSize()+"&"+element.text());
-            }
-
-            Element recommend =app.getElementsByClass("recommend-hidden-box").first();
-            bean.setIntro(recommend.text());
-
-            Element downUrl = app.getElementsByClass("installBtn").first();
-            bean.setDownloadUrl(downUrl.attr("ex_url"));
-            bean.setMpkgName(downUrl.attr("apk"));
+            bean.setDownloadUrl(a.attr("ex_url"))
+                    .setName(a.attr("appname"))
+                    .setMpkgName(a.attr("apk"))
+                    .setIconUrl(a.attr("appicon"));
 
             beans.add(bean);
-
-
-            Log.e(TAG, "getCategoryApps: "+bean);
-
         }
         return beans;
     }
-    public List<AppBean> getApplications(String s) {
-        Document document = Jsoup.parse(s);
-        Element ul = document.getElementsByClass("app-list clearfix").first();
 
-        Elements li = ul.getElementsByTag("li");
+    private void getUnion(Map map,Document document){
 
-        ArrayList<AppBean> beans = new ArrayList<>();
+        map.put("男生",getUnionApp(document.getElementsByClass("union-left").first()));
+        map.put("女生",getUnionApp(document.getElementsByClass("union-right").first()));
+    }
 
-
-        for (Element e : li) {
-
-            Element divRoot = e.getElementsByTag("div").first();
-
-            Element div1 = divRoot.getElementsByTag("div").first();
-
-            Element a1 = div1.getElementsByTag("a").get(1);
-
-            Element span1 = div1.getElementsByTag("span").first();
-            Element span2 = div1.getElementsByTag("span").get(1);
-            Element a2 = div1.getElementsByTag("a").get(2);
-
-
+    private List<AppBean> getUnionApp(Element union){
+        Elements apps = union.getElementsByClass("com-vertical-lit-app");
+        List<AppBean> appBeans = new ArrayList<>();
+        for (Element app:apps) {
             AppBean appBean = new AppBean();
-            appBean.setName(a1.text());
-            appBean.setDetailUrl(a1.attr("href"));
-            appBean.setAppSize(span1.text());
-            appBean.setHot(span2.text());
-            appBean.setIconUrl(a2.attr("appicon"));
-            appBean.setDownloadUrl(a2.attr("ex_url"));
+            Element install = app.getElementsByClass("T_ComEventAppIns com-install-lit-btn").first();
+            appBean.setDownloadUrl(install.attr("ex_url"))
+                    .setName(install.attr("appname"))
+                    .setMpkgName(install.attr("apk"))
+                    .setIconUrl(install.attr("appicon"));
 
-            beans.add(appBean);
-
-
+            appBeans.add(appBean);
         }
+        return appBeans;
 
-
-        return beans;
     }
-
 
 }

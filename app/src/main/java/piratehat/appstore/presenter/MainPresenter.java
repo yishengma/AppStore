@@ -54,6 +54,11 @@ public class MainPresenter implements IMainContract.IPresenter {
     }
 
     @Override
+    public void setBoutiqueApps(Map<String, List<AppBean>> beans) {
+        mIView.setBoutiqueApps(beans);
+    }
+
+    @Override
     public IAsyncDataSource getRefreshData() {
         return new MainAppsModel();
     }

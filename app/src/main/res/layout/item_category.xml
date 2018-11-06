@@ -23,7 +23,7 @@
                 android:layout_above="@+id/view_center"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="2dp"
-                android:src="@drawable/tab_great" />
+                android:src="@drawable/tab_boutique" />
 
             <View
                 android:id="@+id/view_center"

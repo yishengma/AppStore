@@ -4,6 +4,7 @@ package piratehat.appstore.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -11,6 +12,7 @@ import com.shizhefei.mvc.MVCCoolHelper;
 import com.shizhefei.mvc.MVCHelper;
 import com.shizhefei.view.coolrefreshview.CoolRefreshView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +27,7 @@ import piratehat.appstore.R;
 import piratehat.appstore.adapter.MainAppsAdapter;
 import piratehat.appstore.contract.IMainContract;
 import piratehat.appstore.presenter.MainPresenter;
+import piratehat.appstore.ui.BoutiqueActivity;
 import piratehat.appstore.ui.CategoryActivity;
 import piratehat.appstore.ui.RankActivity;
 import piratehat.appstore.ui.TencentActivity;
@@ -51,7 +54,8 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
     private MainAppsAdapter mAppsAdapter;
     private IMainContract.IPresenter mPresenter;
     private MVCHelper<List<AppBean>> mMVCHelper;
-    private Map<String, List<AppBean>> mMap;
+    private Map<String, List<AppBean>> mRankMap;
+    private Map<String,List<AppBean>> mBoutiqueMap;
 
     @Override
     protected int setLayoutResId() {
@@ -62,12 +66,13 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
     protected void initData(Bundle bundle) {
 
         mPresenter = new MainPresenter(this);
-        mRvApps.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRvApps.setLayoutManager(new LinearLayoutManager(mActivity,LinearLayoutManager.VERTICAL,false));
         mMVCHelper = new MVCCoolHelper<>(mCrvApps);
         mMVCHelper.setDataSource(mPresenter.getRefreshData());
         mAppsAdapter = new MainAppsAdapter(mActivity);
         mMVCHelper.setAdapter(mAppsAdapter);
-        mMap = new HashMap<>();
+        mRankMap = new HashMap<>();
+        mBoutiqueMap = new HashMap<>();
         mPresenter.getMainPage();
         mMVCHelper.refresh();
 
@@ -91,14 +96,17 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
                         break;
                     case R.id.tab_rank:
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable("map", new SerializableMap(mMap));
+                        bundle.putSerializable("map", new SerializableMap(mRankMap));
                         RankActivity.actionStart(mActivity, bundle);
                         break;
                     case R.id.tab_tencent:
-
                         TencentActivity.actionStart(mActivity,TencentActivity.class);
                         break;
-                    case 3:
+                    case R.id.tab_boutique:
+                        Bundle bundle1 = new Bundle();
+                        SerializableMap map = new SerializableMap(mBoutiqueMap);
+                        bundle1.putSerializable("map",map);
+                        BoutiqueActivity.actionStart(mActivity,BoutiqueActivity.class,bundle1);
                         break;
                     default:
                         break;
@@ -111,7 +119,7 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
 
     @Override
     public void setRankApps(Map<String, List<AppBean>> beans) {
-        mMap = beans;
+        mRankMap = beans;
     }
 
     @Override
@@ -129,5 +137,8 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
 
     }
 
-
+    @Override
+    public void setBoutiqueApps(Map<String, List<AppBean>> beans) {
+        mBoutiqueMap = beans;
+    }
 }

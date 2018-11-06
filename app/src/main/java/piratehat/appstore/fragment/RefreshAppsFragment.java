@@ -3,10 +3,6 @@ package piratehat.appstore.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.shizhefei.mvc.IAsyncDataSource;
 import com.shizhefei.mvc.MVCCoolHelper;
@@ -17,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.CommonAppsAdapter;
@@ -30,7 +24,7 @@ import piratehat.appstore.presenter.AppPresenter;
  * Created by PirateHat on 2018/11/3.
  */
 
-public class AppsFragment extends BaseFragment implements IAppsContract.IView {
+public class RefreshAppsFragment extends BaseFragment implements IAppsContract.IView {
 
     @BindView(R.id.rv_apps)
     RecyclerView mRvApps;
@@ -43,7 +37,7 @@ public class AppsFragment extends BaseFragment implements IAppsContract.IView {
     private String mCategory;
     private AppPresenter mPresenter;
     private MVCHelper<List<AppBean>> mMVCHelper;
-    private static final String TAG = "AppsFragment";
+    private static final String TAG = "RefreshAppsFragment";
 
 
 
@@ -87,8 +81,8 @@ public class AppsFragment extends BaseFragment implements IAppsContract.IView {
 
     }
 
-    public static AppsFragment newInstance(String category) {
-        AppsFragment fragment = new AppsFragment();
+    public static RefreshAppsFragment newInstance(String category) {
+        RefreshAppsFragment fragment = new RefreshAppsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("category", category);
         fragment.setArguments(bundle);

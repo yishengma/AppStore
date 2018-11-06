@@ -20,7 +20,7 @@ public interface IMainContract {
     interface IView{
         void setBanner(ArrayList<BannerBean> beans,ArrayList<String> titles);
         void setRankApps(Map<String,List<AppBean>> beans);
-
+        void setBoutiqueApps(Map<String,List<AppBean>> beans);
         void showError(String msg);
     }
 
@@ -34,6 +34,7 @@ public interface IMainContract {
         void getMainPage();
         void setBanner(ArrayList<BannerBean> beans);
         void setRankApps(Map<String,List<AppBean>> beans);
+        void setBoutiqueApps(Map<String,List<AppBean>> beans);
         void showError(String msg);
         IAsyncDataSource getRefreshData();
     }
