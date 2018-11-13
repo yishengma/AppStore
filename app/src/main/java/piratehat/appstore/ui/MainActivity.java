@@ -18,12 +18,13 @@ import piratehat.appstore.fragment.MainFragment;
 import piratehat.appstore.fragment.ManagerFragment;
 import piratehat.appstore.fragment.SoftwareFragment;
 import piratehat.appstore.utils.BottomNavigationViewHelper;
+import piratehat.appstore.widget.NoScrollViewPager;
 
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     @BindView(R.id.vp_content)
-    ViewPager mVpContent;
+    NoScrollViewPager mVpContent;
     @BindView(R.id.bnv_navigation)
     BottomNavigationView mBnvNavigation;
     private MenuItem mMenuItem;
@@ -42,13 +43,13 @@ public class MainActivity extends AppCompatActivity {
         StatusBarCompat.setStatusBarColor(this, getResources().getColor(R.color.colorBackgroundWhite), true);
 
         BottomNavigationViewHelper.disableShiftMode(mBnvNavigation);
-
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MainFragment());
         adapter.addFragment(new GameFragment());
         adapter.addFragment(new SoftwareFragment());
         adapter.addFragment(new ManagerFragment());
         mVpContent.setAdapter(adapter);
+        mVpContent.setScroll(false);
     }
 
     private void initListener() {
@@ -59,16 +60,16 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.item_main:
-                        mVpContent.setCurrentItem(0);
+                        mVpContent.setCurrentItem(0,false);
                         break;
                     case R.id.item_game:
-                        mVpContent.setCurrentItem(1);
+                        mVpContent.setCurrentItem(1,false);
                         break;
                     case R.id.item_software:
-                        mVpContent.setCurrentItem(2);
+                        mVpContent.setCurrentItem(2,false);
                         break;
                     case R.id.item_manager:
-                        mVpContent.setCurrentItem(3);
+                        mVpContent.setCurrentItem(3,false);
                         break;
                 }
                 return false;

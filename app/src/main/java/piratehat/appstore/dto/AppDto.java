@@ -3,6 +3,7 @@ package piratehat.appstore.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayDeque;
 import java.util.List;
 
 import piratehat.appstore.Bean.AppBean;
@@ -28,6 +29,7 @@ public class AppDto implements Mapper<AppBean> , Parcelable{
     private String categoryName;
 
     private AppDto(Parcel in) {
+
         apkUrl = in.readString();
         appDownCount = in.readLong();
         appName = in.readString();

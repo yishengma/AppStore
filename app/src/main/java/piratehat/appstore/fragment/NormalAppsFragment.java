@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -41,7 +42,10 @@ public class NormalAppsFragment extends BaseFragment {
     protected void initData(Bundle bundle) {
 
         mAppBeans = new ArrayList<>();
-        mAppBeans.addAll((Collection<? extends AppBean>) bundle.getSerializable("apps"));
+        ArrayList list = (ArrayList) bundle.getSerializable("apps");
+        if (list!=null ){
+            mAppBeans.addAll(list);
+        }
         mAdapter = new CommonAppsAdapter(mActivity, mAppBeans);
 
     }

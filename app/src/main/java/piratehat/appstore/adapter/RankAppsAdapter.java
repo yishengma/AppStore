@@ -30,6 +30,7 @@ public class RankAppsAdapter extends  RecyclerView.Adapter<RankAppsAdapter.ItemV
     private Context mContext;
 
     public RankAppsAdapter(List<AppBean> appBeans, Context context) {
+
         mAppBeans = appBeans;
         mContext = context;
     }

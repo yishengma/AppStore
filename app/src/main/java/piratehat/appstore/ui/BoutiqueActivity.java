@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.githang.statusbar.StatusBarCompat;
 
@@ -33,7 +34,7 @@ public class BoutiqueActivity extends BaseActivity {
     TabLayout mTlNavigation;
     @BindView(R.id.vp_content)
     ViewPager mVpContent;
-
+    private static final String TAG = "BoutiqueActivity";
     private Map mMap;
     private String[] mMsg;
 
@@ -55,6 +56,7 @@ public class BoutiqueActivity extends BaseActivity {
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         for (int i = 0; i < mMsg.length; i++) {
+
             viewPagerAdapter.addFragment(NormalAppsFragment.newInstance((ArrayList) mMap.get(mMsg[i])));
         }
 

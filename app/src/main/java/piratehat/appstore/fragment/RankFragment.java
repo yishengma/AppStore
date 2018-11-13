@@ -40,7 +40,13 @@ public class RankFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle bundle) {
-        mAppBeans = (List<AppBean>) bundle.getSerializable("apps");
+
+        mAppBeans = new ArrayList<>();
+        ArrayList list = (ArrayList) bundle.getSerializable("apps");
+        if (list!=null ){
+            mAppBeans.addAll(list);
+        }
+
         mAppsAdapter = new RankAppsAdapter(mAppBeans,mActivity);
     }
 

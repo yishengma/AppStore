@@ -161,6 +161,7 @@ public class JsoupUtil {
         getBoutiqueGame(map,document);
         getCategoryBody(map,document);
         getUnion(map,document);
+
         return map;
 
     }
