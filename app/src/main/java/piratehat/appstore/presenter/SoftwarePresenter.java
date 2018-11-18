@@ -1,5 +1,7 @@
 package piratehat.appstore.presenter;
 
+import com.shizhefei.mvc.IAsyncDataSource;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,16 +25,25 @@ public class SoftwarePresenter implements ISoftwareContract.IPresenter {
     }
 
     @Override
-    public void setAllApps(List<AppBean> list) {
-        ArrayList<AppBean> list1 = new ArrayList<>();
-        list1.add(null);
-        list1.addAll(list);
-        mIView.setAllApps(list1);
+    public void setAppsList(ArrayList<AppBean> beans) {
+
+        mIView.setAllApps(beans);
     }
 
     @Override
-    public void getAllApps() {
+    public void getAppsList() {
         mIModel.getAllApps(this);
+    }
+
+    @Override
+    public void showError(String msg) {
 
     }
+
+    @Override
+    public IAsyncDataSource loadMore() {
+        return mIModel;
+    }
+
+
 }

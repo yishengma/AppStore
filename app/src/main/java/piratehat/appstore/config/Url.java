@@ -1,7 +1,6 @@
 package piratehat.appstore.config;
 
 /**
- *
  * Created by PirateHat on 2018/10/27.
  */
 
@@ -26,5 +25,12 @@ public class Url {
             "&pns=NjA=&sid=0"};
     // 腾讯的种类
     public static final String TENCENT_PAGE = "https://sj.qq.com/myapp/cate/appList.htm?orgame=1&categoryId=-10&pageSize=20&pageContext=";
+
+
+    public static final String SOFTWARE_ALL = "https://sj.qq.com/myapp/cate/appList.htm?orgame=1&categoryId=0&pageSize=20&pageContext=";
+
+    public static final String GAME_ALL = "https://sj.qq.com/myapp/cate/appList.htm?orgame=2&categoryId=0&pageSize=20&pageContext=";
+    public static final String CLASSIFY_ROOT = "https://sj.qq.com/myapp/cate/appList.htm?orgame=2&categoryId=";
+    public static final String CLASSIFY_CONTEXT = "&pageSize=20&pageContext=";
 
 }

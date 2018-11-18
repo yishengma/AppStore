@@ -1,5 +1,8 @@
 package piratehat.appstore.contract;
 
+import com.shizhefei.mvc.IAsyncDataSource;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import piratehat.appstore.Bean.AppBean;
@@ -15,12 +18,14 @@ public interface IGameContract {
         void setAllApps(List<AppBean> list);
     }
 
-    interface IModel{
+    interface IModel  extends IAsyncDataSource<ArrayList<AppBean>>{
         void getAllApps(IPresenter presenter);
     }
 
     interface IPresenter{
-        void setAllApps(List<AppBean> list);
-        void getAllApps();
+        void setAppsList(ArrayList<AppBean> beans);
+        void getAppsList();
+        void showError(String msg);
+        IAsyncDataSource loadMore();
     }
 }

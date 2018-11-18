@@ -14,32 +14,52 @@ import okhttp3.Call;
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
-import piratehat.appstore.contract.IGameContract;
-import piratehat.appstore.contract.ISoftwareContract;
+import piratehat.appstore.contract.IAppsContract;
 import piratehat.appstore.dto.AppsDataDto;
-import piratehat.appstore.dto.CategoryAppsDto;
 import piratehat.appstore.utils.GsonUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
 
 /**
- *
- * Created by PirateHat on 2018/11/13.
+ * Created by PirateHat on 2018/11/18.
  */
 
-public class GameModel implements IGameContract.IModel {
-    private boolean mHasMore;
-    private int mPageContext;
-    private static final String TAG = "GameModel";
-    @Override
-    public void getAllApps(final IGameContract.IPresenter presenter) {
+public class ClassifyModel implements IAppsContract.IModel {
 
+    private static final String TAG = "CommonAppsModel";
+    private boolean mHasMore;
+    private int mID = -1;
+    private int mPageContext;
+
+    public ClassifyModel(int ID) {
+        mID = ID;
+        Log.e(TAG, "ClassifyModel: "+mID );
+    }
+
+    @Override
+    public RequestHandle refresh(ResponseSender<List<AppBean>> sender) throws Exception {
+        return new OkHttpRequestHandle();
+    }
+
+    @Override
+    public RequestHandle loadMore(ResponseSender<List<AppBean>> sender) throws Exception {
+        mPageContext+=20;
+        return loadApps(sender);
+    }
+
+    @Override
+    public boolean hasMore() {
+        return mHasMore;
+    }
+
+    @Override
+    public void getCategory(final IAppsContract.IPresenter presenter, String category) {
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
-        OkHttpUtil.getInstance().getAsync(Url.GAME_ALL + mPageContext, new OkHttpResultCallback() {
+        Log.e(TAG, "getCategory: " + Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT + mPageContext);
+        OkHttpUtil.getInstance().getAsync(Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT + mPageContext, new OkHttpResultCallback() {
             @Override
             public void onError(Call call, Exception e) {
-
                 presenter.showError(e.getMessage());
             }
 
@@ -48,34 +68,16 @@ public class GameModel implements IGameContract.IModel {
 
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
                 mHasMore = beans.size() != 0;
+                presenter.setResult(beans);
 
-                presenter.setAppsList(beans);
             }
         }, map);
     }
 
-    @Override
-    public RequestHandle refresh(ResponseSender<ArrayList<AppBean>> sender) throws Exception {
-
-        return new OkHttpRequestHandle();
-    }
-
-    @Override
-    public RequestHandle loadMore(ResponseSender<ArrayList<AppBean>> sender) throws Exception {
-        mPageContext += 20;
-        return loadApps(sender, mPageContext);
-    }
-
-    @Override
-    public boolean hasMore() {
-
-        return mHasMore;
-    }
-
-    private RequestHandle loadApps(final ResponseSender<ArrayList<AppBean>> sender, int pageContext) {
+    private RequestHandle loadApps(final ResponseSender<List<AppBean>> sender) {
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
-        OkHttpUtil.getInstance().getAsync(Url.GAME_ALL + pageContext, new OkHttpResultCallback() {
+        OkHttpUtil.getInstance().getAsync(Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT + mPageContext, new OkHttpResultCallback() {
             @Override
             public void onError(Call call, Exception e) {
                 sender.sendError(e);
@@ -83,12 +85,14 @@ public class GameModel implements IGameContract.IModel {
 
             @Override
             public void onResponse(String msg) {
-
+                Log.e(TAG, "onResponse: " +msg );
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
                 mHasMore = beans.size() != 0;
                 sender.sendData(beans);
+
             }
         }, map);
+
         return new OkHttpRequestHandle();
     }
 }

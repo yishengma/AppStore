@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.contract.IAppsContract;
+import piratehat.appstore.module.ClassifyModel;
 import piratehat.appstore.module.CommonAppsModel;
 
 /**
@@ -17,10 +18,19 @@ public class AppPresenter implements IAppsContract.IPresenter {
 
     private IAppsContract.IView mIView;
     private IAppsContract.IModel mIModel;
+
+
     public AppPresenter(IAppsContract.IView IView,String category) {
         mIView = IView;
         mIModel =new CommonAppsModel(category);
     }
+
+
+    public AppPresenter(IAppsContract.IView IView,int id) {
+        mIView = IView;
+        mIModel =new ClassifyModel(id);
+    }
+
 
     @Override
     public void setResult(ArrayList<AppBean> beans) {

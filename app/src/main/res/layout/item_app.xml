@@ -4,7 +4,10 @@
     android:background="@color/colorBackgroundWhite"
     android:layout_height="100dp"
     android:orientation="horizontal">
-
+    <View
+        android:background="@color/colorDividerGray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
     <ImageView
         android:id="@+id/imv_icon"
         android:layout_width="70dp"

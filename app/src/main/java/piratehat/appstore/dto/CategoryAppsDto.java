@@ -21,7 +21,7 @@ public class CategoryAppsDto implements Mapper<List<AppBean>> {
     @Override
     public List<AppBean> transform() {
         ArrayList<AppBean> appBeans = new ArrayList<>();
-        int size = obj.getAppDetails().size();
+        int size = obj!=null?obj.getAppDetails().size():0;
         for (int i = 0; i < size; i++) {
             appBeans.add(obj.getAppDetails().get(i).transform());
         }

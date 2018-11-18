@@ -2,6 +2,8 @@ package piratehat.appstore.module;
 
 
 
+import android.util.Log;
+
 import com.shizhefei.mvc.IAsyncDataSource;
 import com.shizhefei.mvc.RequestHandle;
 import com.shizhefei.mvc.ResponseSender;
@@ -60,6 +62,7 @@ public class MainAppsModel implements IAsyncDataSource<List<AppBean>> {
 
             @Override
             public void onResponse(String msg) {
+
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
                 mHasMore = beans.size() != 0;
 

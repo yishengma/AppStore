@@ -3,6 +3,7 @@ package piratehat.appstore.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 
 import com.shizhefei.mvc.IAsyncDataSource;
 import com.shizhefei.mvc.MVCCoolHelper;
@@ -37,6 +38,7 @@ public class RefreshAppsFragment extends BaseFragment implements IAppsContract.I
     private String mCategory;
     private AppPresenter mPresenter;
     private MVCHelper<List<AppBean>> mMVCHelper;
+    private int mCategoryId;
     private static final String TAG = "RefreshAppsFragment";
 
 
@@ -50,7 +52,12 @@ public class RefreshAppsFragment extends BaseFragment implements IAppsContract.I
     protected void initData(Bundle bundle) {
         mAppBeans = new ArrayList<>();
         mCategory = bundle.getString("category");
-        mPresenter = new AppPresenter(this, mCategory);
+        mCategoryId = bundle.getInt("categoryId");
+        if (!TextUtils.isEmpty(mCategory)){
+            mPresenter = new AppPresenter(this, mCategory);
+        }else {
+            mPresenter = new AppPresenter(this,mCategoryId);
+        }
         mPresenter.getCategory(mCategory);
     }
 
@@ -85,6 +92,14 @@ public class RefreshAppsFragment extends BaseFragment implements IAppsContract.I
         RefreshAppsFragment fragment = new RefreshAppsFragment();
         Bundle bundle = new Bundle();
         bundle.putString("category", category);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    public static RefreshAppsFragment newInstance(int id) {
+        RefreshAppsFragment fragment = new RefreshAppsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("categoryId", id);
         fragment.setArguments(bundle);
         return fragment;
     }

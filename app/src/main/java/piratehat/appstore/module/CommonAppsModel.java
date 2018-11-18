@@ -34,9 +34,12 @@ public class CommonAppsModel implements IAppsContract.IModel {
     private boolean mHasMore;
     private int mIndex = 1;
 
+
+
     public CommonAppsModel(String category) {
         mCategory = category;
     }
+
 
     @Override
     public RequestHandle refresh(ResponseSender<List<AppBean>> sender) throws Exception {

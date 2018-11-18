@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.shizhefei.mvc.IDataAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +28,10 @@ import piratehat.appstore.R;
  * Created by PirateHat on 2018/11/13.
  */
 
-public class GameMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class GameMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IDataAdapter<List<AppBean>> {
     private static final int ITEM = 1;
     private static final int HEAD = 0;
-
+    private static final String TAG = "GameMainAdapter";
 
     private List<AppBean> mAppBeans;
     private Context mContext;
@@ -45,9 +47,8 @@ public class GameMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public GameMainAdapter(List<AppBean> appBeans, Context context) {
-        mAppBeans = new ArrayList<>();
+        mAppBeans = appBeans;
         mAppBeans.add(null);
-        mAppBeans.addAll(appBeans);
         mContext = context;
     }
 
@@ -56,10 +57,12 @@ public class GameMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
+
         if (viewType == HEAD) {
             viewHolder = new HeaderViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_two_navigation, parent, false));
         }
         if (viewType == ITEM) {
+
             viewHolder = new ItemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_app, parent, false));
         }
         assert viewHolder != null;
@@ -72,9 +75,9 @@ public class GameMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof ItemViewHolder) {
             AppBean appBean = mAppBeans.get(position);
             Glide.with(mContext).load(appBean.getIconUrl()).into(((ItemViewHolder) holder).mImvIcon);
-            ((ItemViewHolder) holder).mTvInfo.setText(appBean.getIntro() + appBean.getAppSize());
+            ((ItemViewHolder) holder).mTvInfo.setText(appBean.getIntro() );
             ((ItemViewHolder) holder).mTvName.setText(appBean.getName());
-            ((ItemViewHolder) holder).mTvHot.setText(appBean.getHot());
+            ((ItemViewHolder) holder).mTvHot.setText(appBean.getAppSize()+ appBean.getHot());
         }
     }
 
@@ -86,6 +89,24 @@ public class GameMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemViewType(int position) {
         return position == HEAD ? HEAD : ITEM;
+    }
+
+    @Override
+    public void notifyDataChanged(List<AppBean> appBeans, boolean isRefresh) {
+        if (!isRefresh){
+            mAppBeans.addAll(appBeans);
+            notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public List<AppBean> getData() {
+        return mAppBeans;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return mAppBeans.size()==0;
     }
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

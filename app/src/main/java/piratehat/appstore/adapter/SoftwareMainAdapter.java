@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.shizhefei.mvc.IDataAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,11 +23,10 @@ import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.R;
 
 /**
- *
  * Created by PirateHat on 2018/11/13.
  */
 
-public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IDataAdapter<List<AppBean>> {
     private static final int ITEM = 1;
     private static final int HEAD = 0;
 
@@ -34,20 +34,19 @@ public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<AppBean> mAppBeans;
     private Context mContext;
 
-    private static GameMainAdapter.OnClickListener mListener;
+    private static OnClickListener mListener;
 
-    public void setListener(GameMainAdapter.OnClickListener listener) {
+    public void setListener(OnClickListener listener) {
         mListener = listener;
     }
 
     public interface OnClickListener {
-        void onClick(int id,AppBean bean);
+        void onClick(int id, AppBean bean);
     }
 
     public SoftwareMainAdapter(List<AppBean> appBeans, Context context) {
-        mAppBeans = new ArrayList<>();
+        mAppBeans = appBeans;
         mAppBeans.add(null);
-        mAppBeans.addAll(appBeans);
         mContext = context;
     }
 
@@ -57,10 +56,10 @@ public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
         if (viewType == HEAD) {
-            viewHolder = new GameMainAdapter.HeaderViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_two_navigation, parent, false));
+            viewHolder = new HeaderViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_two_navigation, parent, false));
         }
         if (viewType == ITEM) {
-            viewHolder = new GameMainAdapter.ItemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_app, parent, false));
+            viewHolder = new ItemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_app, parent, false));
         }
         assert viewHolder != null;
         return viewHolder;
@@ -69,12 +68,15 @@ public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof GameMainAdapter.ItemViewHolder) {
+        if (holder instanceof ItemViewHolder) {
             AppBean appBean = mAppBeans.get(position);
-            Glide.with(mContext).load(appBean.getIconUrl()).into(((GameMainAdapter.ItemViewHolder) holder).mImvIcon);
-            ((GameMainAdapter.ItemViewHolder) holder).mTvInfo.setText(appBean.getIntro() + appBean.getAppSize());
-            ((GameMainAdapter.ItemViewHolder) holder).mTvName.setText(appBean.getName());
-            ((GameMainAdapter.ItemViewHolder) holder).mTvHot.setText(appBean.getHot());
+
+            Glide.with(mContext).load(appBean.getIconUrl()).into(((SoftwareMainAdapter.ItemViewHolder) holder).mImvIcon);
+
+
+            ((SoftwareMainAdapter.ItemViewHolder) holder).mTvInfo.setText(appBean.getIntro() );
+            ((SoftwareMainAdapter.ItemViewHolder) holder).mTvName.setText(appBean.getName());
+            ((SoftwareMainAdapter.ItemViewHolder) holder).mTvHot.setText( appBean.getAppSize()+appBean.getHot());
         }
     }
 
@@ -88,7 +90,26 @@ public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return position == HEAD ? HEAD : ITEM;
     }
 
-    static class HeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+    @Override
+    public void notifyDataChanged(List<AppBean> appBeans, boolean isRefresh) {
+        if (!isRefresh) {
+            mAppBeans.addAll(appBeans);
+            notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public List<AppBean> getData() {
+        return mAppBeans;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return mAppBeans.size() == 0;
+    }
+
+    static class HeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.tab_category)
         LinearLayout mCategory;
         @BindView(R.id.tab_collection)
@@ -98,11 +119,11 @@ public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            ((ImageView)mCategory.getChildAt(0)).setImageResource(R.drawable.tab_category);
-            ((ImageView)mCollection.getChildAt(0)).setImageResource(R.drawable.tab_collection);
+            ((ImageView) mCategory.getChildAt(0)).setImageResource(R.drawable.tab_category);
+            ((ImageView) mCollection.getChildAt(0)).setImageResource(R.drawable.tab_collection);
 
-            ((TextView)mCategory.getChildAt(1)).setText("分类");
-            ((TextView)mCollection.getChildAt(1)).setText("合集");
+            ((TextView) mCategory.getChildAt(1)).setText("分类");
+            ((TextView) mCollection.getChildAt(1)).setText("合集");
             mCategory.setOnClickListener(this);
             mCollection.setOnClickListener(this);
 
@@ -110,8 +131,8 @@ public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @Override
         public void onClick(View v) {
-            if (mListener!=null){
-                mListener.onClick(v.getId(),null);
+            if (mListener != null) {
+                mListener.onClick(v.getId(), null);
             }
         }
     }

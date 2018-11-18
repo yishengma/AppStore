@@ -1,5 +1,9 @@
 package piratehat.appstore.presenter;
 
+import android.util.Log;
+
+import com.shizhefei.mvc.IAsyncDataSource;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +19,7 @@ public class GamePresenter implements IGameContract.IPresenter {
 
     private IGameContract.IView mIView;
     private IGameContract.IModel mIModel;
+    private static final String TAG = "GamePresenter";
 
     public GamePresenter(IGameContract.IView IView) {
         mIView = IView;
@@ -22,15 +27,27 @@ public class GamePresenter implements IGameContract.IPresenter {
     }
 
     @Override
-    public void setAllApps(List<AppBean> list) {
-        ArrayList<AppBean> list1 = new ArrayList<>();
-        list1.add(null);
-        list1.addAll(list);
-        mIView.setAllApps(list1);
+    public void setAppsList(ArrayList<AppBean> beans) {
+
+        mIView.setAllApps(beans);
     }
 
     @Override
-    public void getAllApps() {
-       mIModel.getAllApps(this);
+    public void getAppsList() {
+
+        mIModel.getAllApps(this);
     }
+
+    @Override
+    public void showError(String msg) {
+
+    }
+
+    @Override
+    public IAsyncDataSource loadMore() {
+
+        return mIModel;
+    }
+
+
 }

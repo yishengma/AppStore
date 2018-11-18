@@ -21,7 +21,7 @@ public class AppsDataDto implements Mapper<List<AppBean>>{
     @Override
     public List<AppBean> transform() {
         ArrayList<AppBean> appBeans = new ArrayList<>();
-        int size = obj.size();
+        int size = obj!=null?obj.size():0;
         for (int i = 0; i < size; i++) {
             appBeans.add(obj.get(i).transform());
         }
