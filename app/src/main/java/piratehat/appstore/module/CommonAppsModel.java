@@ -59,6 +59,8 @@ public class CommonAppsModel implements IAppsContract.IModel {
 
     @Override
     public void getCategory(final IAppsContract.IPresenter presenter, String category) {
+
+
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
         OkHttpUtil.getInstance().getAsync(Url.CATEGORY + mCategory+Url.MORE_MODE[0], new OkHttpResultCallback() {

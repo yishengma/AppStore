@@ -18,6 +18,7 @@ import piratehat.appstore.contract.IGameContract;
 import piratehat.appstore.contract.ISoftwareContract;
 import piratehat.appstore.dto.AppsDataDto;
 import piratehat.appstore.dto.CategoryAppsDto;
+import piratehat.appstore.utils.Cache;
 import piratehat.appstore.utils.GsonUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
@@ -33,7 +34,6 @@ public class GameModel implements IGameContract.IModel {
     private static final String TAG = "GameModel";
     @Override
     public void getAllApps(final IGameContract.IPresenter presenter) {
-
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
         OkHttpUtil.getInstance().getAsync(Url.GAME_ALL + mPageContext, new OkHttpResultCallback() {
