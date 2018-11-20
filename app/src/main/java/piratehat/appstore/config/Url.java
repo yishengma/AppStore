@@ -32,5 +32,6 @@ public class Url {
     public static final String GAME_ALL = "https://sj.qq.com/myapp/cate/appList.htm?orgame=2&categoryId=0&pageSize=20&pageContext=";
     public static final String CLASSIFY_ROOT = "https://sj.qq.com/myapp/cate/appList.htm?orgame=2&categoryId=";
     public static final String CLASSIFY_CONTEXT = "&pageSize=20&pageContext=";
+    public static final String DETAIL_INFO = "https://sj.qq.com/myapp/detail.htm?apkName=";
 
 }

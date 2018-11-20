@@ -118,30 +118,4 @@ public class Constant {
             122,102,110,103,108,115,106,101,119,104,114,117,107,112,118,111,109,105,100,113,116
     };
 
-    public static final String[] SOFTWARE_COLLECTION = new String[]{
-            "全部",
-            "装机必备",
-            "权威推荐",
-            "情侣夫妻",
-            "省钱达人",
-            "学生",
-            "上班族",
-            "男生",
-            "女生",
-
-    };
-
-    public static final int[] SOFTWARE_ID = new int[]{0,9,10,11,12,13,14,15,16};
-
-
-    public static final String[] GAME_COLLECTION = new String[]{
-            "全部",
-            "赛车",
-            "角色动作",
-            "轻松休闲",
-            "益智策略",
-
-    };
-
-    public static final int[] GAME_ID = new int[]{0,2,4,7,8};
 }

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import piratehat.appstore.Bean.AppBean;
+import piratehat.appstore.Bean.AppDetailBean;
 import piratehat.appstore.Bean.BannerBean;
 
 
@@ -155,12 +156,12 @@ public class JsoupUtil {
     }
 
     public Map getBoutiqueApps(String msg) {
-        Map<String,List<AppBean>> map = new HashMap<>();
+        Map<String, List<AppBean>> map = new HashMap<>();
         Document document = Jsoup.parse(msg);
-        getBoutiqueApp(map,document);
-        getBoutiqueGame(map,document);
-        getCategoryBody(map,document);
-        getUnion(map,document);
+        getBoutiqueApp(map, document);
+        getBoutiqueGame(map, document);
+        getCategoryBody(map, document);
+        getUnion(map, document);
 
         return map;
 
@@ -235,16 +236,16 @@ public class JsoupUtil {
         return beans;
     }
 
-    private void getUnion(Map map,Document document){
+    private void getUnion(Map map, Document document) {
 
-        map.put("男生",getUnionApp(document.getElementsByClass("union-left").first()));
-        map.put("女生",getUnionApp(document.getElementsByClass("union-right").first()));
+        map.put("男生", getUnionApp(document.getElementsByClass("union-left").first()));
+        map.put("女生", getUnionApp(document.getElementsByClass("union-right").first()));
     }
 
-    private List<AppBean> getUnionApp(Element union){
+    private List<AppBean> getUnionApp(Element union) {
         Elements apps = union.getElementsByClass("com-vertical-lit-app");
         List<AppBean> appBeans = new ArrayList<>();
-        for (Element app:apps) {
+        for (Element app : apps) {
             AppBean appBean = new AppBean();
             Element install = app.getElementsByClass("T_ComEventAppIns com-install-lit-btn").first();
             appBean.setDownloadUrl(install.attr("ex_url"))
@@ -255,6 +256,82 @@ public class JsoupUtil {
             appBeans.add(appBean);
         }
         return appBeans;
+
+    }
+
+    public AppDetailBean getAppDetailInfo(String s) {
+
+        Document document = Jsoup.parse(s);
+        AppDetailBean bean = new AppDetailBean();
+        Element element = document.getElementById("J_DetDataContainer");
+        Log.e(TAG, "getAppDetailInfo: "+element );
+        Element element1 = element.getElementsByTag("div").first();
+        Element element19 = element1.getElementsByClass("det-ins-container J_Mod ").first();
+        Element element2 = element19.getElementsByClass("det-icon").first();
+        Element element17 = element2.getElementsByTag("img").first();
+
+        bean.setIcon(element17.attr("src"));//
+        Element element20 = element19.getElementsByClass("det-ins-data").first();
+        Element element21 = element20.getElementsByClass("det-name").first();
+        Element element18 = element21.getElementsByClass("det-name-int").first();
+
+        bean.setName(element18.text());//
+        Element element22 = element20.getElementsByClass("det-star-box").first();
+        Element element3 = element22.getElementsByClass("com-blue-star-num").first();
+        Element element23 = element22.getElementsByClass("det-comment-num").first();
+        Element element5 = element23.getElementsByTag("a").first();
+        bean.setScore(element3.text() + element5.text());//
+
+        Element element24 = element20.getElementsByClass("det-insnum-line").first();
+        Element element6 = element24.getElementsByClass("det-ins-num").first();
+        Element element7 = element24.getElementsByClass("det-size").first();
+
+        bean.setBaseInfo(element6.text() + "~" + element7.text());//
+
+
+        Element element29 = element1.getElementsByClass("det-pic-scroll-container").first();
+        Element element30 = element29.getElementsByClass("pic-turn-hover-box").first();
+        Element element31 = element30.getElementsByClass("pic-turn-hidden-box").first();
+        Element element8 = element31.getElementById("J_PicTurnImgBox");
+        Elements element9 = element8.getElementsByClass("pic-img-box");
+        ArrayList<String> list = new ArrayList<>();
+        for (Element element10 : element9) {
+            Element element11 = element10.getElementsByTag("img").first();
+            list.add(element11.attr("data-src"));
+        }
+
+        bean.setImageList(list); //
+        Element element32 = element1.getElementsByClass("det-othinfo-container J_Mod").first();
+        Element element10 = element32.getElementsByClass("det-othinfo-tit").first();
+        Element element11 = element32.getElementsByClass("det-othinfo-data").first();
+        Element element12 = element32.getElementsByClass("det-othinfo-tit").get(1);
+        Element element13 = element32.getElementsByClass("det-othinfo-data").get(1);
+        Element element14 = element32.getElementsByClass("det-othinfo-tit").get(2);
+        Element element15 = element32.getElementsByClass("det-othinfo-data").get(2);
+
+
+        String builder = (element10.text() + element11.text() + "\n") +
+                element12.text() + element13.text() + "\n" +
+                element14.text() + element15.text();
+
+        bean.setInfo(builder);//
+
+        Element element16 = element1.getElementsByClass("det-intro-container").first();
+        Element element25 = element16.getElementsByClass("det-intro-text").first();
+
+        Element element26 = element25.getElementsByClass("det-app-data-info").first();
+        String s1 = element26.text();
+        String s2 = s1.replace("<br>", "\n");
+        String s3 = s2.replace("\"", "");
+
+        bean.setDetailInfo(s3);
+
+
+        Log.e(TAG, "getAppDetailInfo: " + bean);
+
+
+        return bean;
+
 
     }
 

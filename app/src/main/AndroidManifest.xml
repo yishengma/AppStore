@@ -26,7 +26,7 @@
         <activity android:name=".ui.TencentActivity" />
         <activity android:name=".ui.BoutiqueActivity" />
         <activity android:name=".ui.ClassifyActivity" />
-        <activity android:name=".ui.CollectionActivity"></activity>
+        <activity android:name=".ui.AppDetailsActivity"></activity>
     </application>
 
 </manifest>

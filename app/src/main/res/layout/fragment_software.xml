@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context="piratehat.appstore.ui.MainActivity">
 
-    <include layout="@layout/include_edit_input" />
+    <include layout="@layout/include_collections" />
 
     <View
         android:layout_width="match_parent"

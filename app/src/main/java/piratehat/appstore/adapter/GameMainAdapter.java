@@ -29,8 +29,7 @@ import piratehat.appstore.R;
  */
 
 public class GameMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IDataAdapter<List<AppBean>> {
-    private static final int ITEM = 1;
-    private static final int HEAD = 0;
+
     private static final String TAG = "GameMainAdapter";
 
     private List<AppBean> mAppBeans;
@@ -48,7 +47,6 @@ public class GameMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public GameMainAdapter(List<AppBean> appBeans, Context context) {
         mAppBeans = appBeans;
-        mAppBeans.add(null);
         mContext = context;
     }
 
@@ -58,14 +56,10 @@ public class GameMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
 
-        if (viewType == HEAD) {
-            viewHolder = new HeaderViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_two_navigation, parent, false));
-        }
-        if (viewType == ITEM) {
 
             viewHolder = new ItemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_app, parent, false));
-        }
-        assert viewHolder != null;
+
+
         return viewHolder;
     }
 
@@ -86,10 +80,7 @@ public class GameMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mAppBeans.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return position == HEAD ? HEAD : ITEM;
-    }
+
 
     @Override
     public void notifyDataChanged(List<AppBean> appBeans, boolean isRefresh) {
@@ -107,33 +98,6 @@ public class GameMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public boolean isEmpty() {
         return mAppBeans.size()==0;
-    }
-
-    static class HeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        @BindView(R.id.tab_category)
-        LinearLayout mCategory;
-        @BindView(R.id.tab_collection)
-        LinearLayout mCollection;
-
-        HeaderViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            ((ImageView)mCategory.getChildAt(0)).setImageResource(R.drawable.tab_category);
-            ((ImageView)mCollection.getChildAt(0)).setImageResource(R.drawable.tab_collection);
-
-            ((TextView)mCategory.getChildAt(1)).setText("分类");
-            ((TextView)mCollection.getChildAt(1)).setText("合集");
-            mCategory.setOnClickListener(this);
-            mCollection.setOnClickListener(this);
-
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (mListener!=null){
-                mListener.onClick(v.getId(),null);
-            }
-        }
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {

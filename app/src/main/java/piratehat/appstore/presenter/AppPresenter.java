@@ -34,7 +34,10 @@ public class AppPresenter implements IAppsContract.IPresenter {
 
     @Override
     public void setResult(ArrayList<AppBean> beans) {
-        mIView.setResult(beans);
+        if (beans!=null){
+            mIView.setResult(beans);
+        }
+
     }
 
     @Override

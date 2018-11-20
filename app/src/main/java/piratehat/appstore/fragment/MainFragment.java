@@ -27,6 +27,7 @@ import piratehat.appstore.R;
 import piratehat.appstore.adapter.MainAppsAdapter;
 import piratehat.appstore.contract.IMainContract;
 import piratehat.appstore.presenter.MainPresenter;
+import piratehat.appstore.ui.AppDetailsActivity;
 import piratehat.appstore.ui.BoutiqueActivity;
 import piratehat.appstore.ui.CategoryActivity;
 import piratehat.appstore.ui.RankActivity;
@@ -34,7 +35,6 @@ import piratehat.appstore.ui.TencentActivity;
 
 
 /**
- *
  * Created by PirateHat on 2018/10/27.
  */
 
@@ -55,7 +55,7 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
     private IMainContract.IPresenter mPresenter;
     private MVCHelper<List<AppBean>> mMVCHelper;
     private Map<String, List<AppBean>> mRankMap;
-    private Map<String,List<AppBean>> mBoutiqueMap;
+    private Map<String, List<AppBean>> mBoutiqueMap;
 
     @Override
     protected int setLayoutResId() {
@@ -66,7 +66,7 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
     protected void initData(Bundle bundle) {
 
         mPresenter = new MainPresenter(this);
-        mRvApps.setLayoutManager(new LinearLayoutManager(mActivity,LinearLayoutManager.VERTICAL,false));
+        mRvApps.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         mMVCHelper = new MVCCoolHelper<>(mCrvApps);
         mMVCHelper.setDataSource(mPresenter.getRefreshData());
         mAppsAdapter = new MainAppsAdapter(mActivity);
@@ -100,20 +100,25 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
                         RankActivity.actionStart(mActivity, bundle);
                         break;
                     case R.id.tab_tencent:
-                        TencentActivity.actionStart(mActivity,TencentActivity.class);
+                        TencentActivity.actionStart(mActivity, TencentActivity.class);
                         break;
                     case R.id.tab_boutique:
                         Bundle bundle1 = new Bundle();
                         SerializableMap map = new SerializableMap(mBoutiqueMap);
-                        bundle1.putSerializable("map",map);
-                        BoutiqueActivity.actionStart(mActivity,BoutiqueActivity.class,bundle1);
+                        bundle1.putSerializable("map", map);
+                        BoutiqueActivity.actionStart(mActivity, BoutiqueActivity.class, bundle1);
                         break;
                     default:
                         break;
                 }
             }
         });
-
+        mAppsAdapter.setOnClickListener(new MainAppsAdapter.OnClickListener() {
+            @Override
+            public void click(String apkName) {
+                AppDetailsActivity.actionStart(mActivity, apkName);
+            }
+        });
 
     }
 

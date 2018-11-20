@@ -1,7 +1,6 @@
 package piratehat.appstore.module;
 
 
-
 import android.util.Log;
 
 import com.shizhefei.mvc.IAsyncDataSource;
@@ -24,26 +23,26 @@ import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
 
 /**
- *
  * Created by PirateHat on 2018/10/29.
  */
 
 public class MainAppsModel implements IAsyncDataSource<List<AppBean>> {
-     private int mPageContext ;
-     private boolean mHasMore;
+    private int mPageContext;
+    private boolean mHasMore;
 
 
     private static final String TAG = "MainAppsModel";
+
     @Override
     public RequestHandle refresh(ResponseSender<List<AppBean>> sender) {
         mPageContext = 20;
-        return loadApps(sender,mPageContext);
+        return loadApps(sender, mPageContext);
     }
 
     @Override
     public RequestHandle loadMore(ResponseSender<List<AppBean>> sender) {
-        mPageContext +=20;
-        return loadApps(sender,mPageContext);
+        mPageContext += 20;
+        return loadApps(sender, mPageContext);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class MainAppsModel implements IAsyncDataSource<List<AppBean>> {
     private RequestHandle loadApps(final ResponseSender<List<AppBean>> sender, int pageContext) {
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
-        OkHttpUtil.getInstance().getAsync(Url.LOAD_MORE+pageContext, new OkHttpResultCallback() {
+        OkHttpUtil.getInstance().getAsync(Url.LOAD_MORE + pageContext, new OkHttpResultCallback() {
             @Override
             public void onError(Call call, Exception e) {
                 sender.sendError(e);
@@ -62,17 +61,22 @@ public class MainAppsModel implements IAsyncDataSource<List<AppBean>> {
 
             @Override
             public void onResponse(String msg) {
-
-                ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
-                mHasMore = beans.size() != 0;
-
-                sender.sendData(beans);
+                Log.e(TAG, "onResponse: "+msg );
+                ArrayList<AppBean> beans = new ArrayList<>();
+                try {
+                    beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
+                } catch (IllegalStateException e) {
+                    Log.e(TAG, "onResponse: " + e.getMessage());
+                } finally {
+                    mHasMore = beans.size() != 0;
+                    sender.sendData(beans);
+                }
             }
-        },map);
+        }, map);
         return new OkHttpRequestHandle();
     }
 
-    private class OkHttpRequestHandle implements RequestHandle{
+    private class OkHttpRequestHandle implements RequestHandle {
 
 
         OkHttpRequestHandle() {

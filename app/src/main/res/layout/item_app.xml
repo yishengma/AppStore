@@ -69,4 +69,5 @@
         android:layout_height="7dp"
         android:layout_alignParentBottom="true"
         android:background="@color/colorDividerGray" />
+
 </RelativeLayout>

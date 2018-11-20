@@ -38,7 +38,6 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int sITEM = 2;
 
 
-
     private List<AppBean> mAppBeans;
     private Context mContext;
 
@@ -46,6 +45,15 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<BannerBean> mBanners;
     private List<String> mTitles;
     private static OnTabClickListener mListener;
+    private OnClickListener mOnClickListener;
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        mOnClickListener = onClickListener;
+    }
+
+    public interface OnClickListener {
+        void click(String apkName);
+    }
 
     public interface OnTabClickListener {
         void click(int id);
@@ -114,11 +122,21 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         if (holder instanceof ItemViewHolder) {
-            AppBean appBean = mAppBeans.get(position);
+            final AppBean appBean = mAppBeans.get(position);
             Glide.with(mContext).load(appBean.getIconUrl()).into(((ItemViewHolder) holder).mImvIcon);
             ((ItemViewHolder) holder).mTvName.setText(appBean.getName());
             ((ItemViewHolder) holder).mTvInfo.setText(appBean.getIntro());
             ((ItemViewHolder) holder).mTvHot.setText(appBean.getHot() + appBean.getAppSize());
+
+            ((ItemViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnClickListener != null) {
+                        mOnClickListener.click(appBean.getMpkgName());
+                    }
+                }
+            });
+
 
         }
 
@@ -199,15 +217,15 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            ((ImageView)mCategory.getChildAt(0)).setImageResource(R.drawable.tab_category);
-            ((ImageView)mRank.getChildAt(0)).setImageResource(R.drawable.tab_rank);
-            ((ImageView)mTencent.getChildAt(0)).setImageResource(R.drawable.tab_tencent);
-            ((ImageView)mBoutique.getChildAt(0)).setImageResource(R.drawable.tab_boutique);
+            ((ImageView) mCategory.getChildAt(0)).setImageResource(R.drawable.tab_category);
+            ((ImageView) mRank.getChildAt(0)).setImageResource(R.drawable.tab_rank);
+            ((ImageView) mTencent.getChildAt(0)).setImageResource(R.drawable.tab_tencent);
+            ((ImageView) mBoutique.getChildAt(0)).setImageResource(R.drawable.tab_boutique);
 
-            ((TextView)mCategory.getChildAt(1)).setText("分类");
-            ((TextView)mRank.getChildAt(1)).setText("榜单");
-            ((TextView)mTencent.getChildAt(1)).setText("腾讯");
-            ((TextView)mBoutique.getChildAt(1)).setText("精品");
+            ((TextView) mCategory.getChildAt(1)).setText("分类");
+            ((TextView) mRank.getChildAt(1)).setText("榜单");
+            ((TextView) mTencent.getChildAt(1)).setText("腾讯");
+            ((TextView) mBoutique.getChildAt(1)).setText("精品");
 
             mCategory.setOnClickListener(this);
             mRank.setOnClickListener(this);
@@ -219,7 +237,7 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @Override
         public void onClick(View v) {
-            if (mListener!=null){
+            if (mListener != null) {
                 mListener.click(v.getId());
             }
         }

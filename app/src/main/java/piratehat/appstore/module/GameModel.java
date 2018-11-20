@@ -24,7 +24,6 @@ import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
 
 /**
- *
  * Created by PirateHat on 2018/11/13.
  */
 
@@ -32,6 +31,7 @@ public class GameModel implements IGameContract.IModel {
     private boolean mHasMore;
     private int mPageContext;
     private static final String TAG = "GameModel";
+
     @Override
     public void getAllApps(final IGameContract.IPresenter presenter) {
         Map<String, String> map = new HashMap<>();
@@ -45,11 +45,16 @@ public class GameModel implements IGameContract.IModel {
 
             @Override
             public void onResponse(String msg) {
+                ArrayList<AppBean> beans = new ArrayList<>();
+                try {
+                    beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
 
-                ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
-                mHasMore = beans.size() != 0;
-
-                presenter.setAppsList(beans);
+                } catch (IllegalStateException e) {
+                    Log.e(TAG, "onResponse: "+e.getMessage() );
+                } finally {
+                    mHasMore = beans.size() != 0;
+                    presenter.setAppsList(beans);
+                }
             }
         }, map);
     }

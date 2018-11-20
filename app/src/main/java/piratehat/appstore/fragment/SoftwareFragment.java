@@ -21,7 +21,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.R;
-import piratehat.appstore.adapter.GameMainAdapter;
 import piratehat.appstore.adapter.SoftwareMainAdapter;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.contract.ISoftwareContract;
@@ -37,12 +36,13 @@ public class SoftwareFragment extends BaseFragment implements ISoftwareContract.
 
     @BindView(R.id.et_search)
     EditText mEtSearch;
-    @BindView(R.id.btn_download)
-    ImageButton mBtnDownload;
     @BindView(R.id.rv_apps)
     RecyclerView mRvApps;
     @BindView(R.id.crv_apps)
     CoolRefreshView mCrvApps;
+    @BindView(R.id.btn_collection)
+    ImageButton mBtnCollection;
+
 
     private ArrayList<AppBean> mAppBeans;
     private SoftwareMainAdapter mAdapter;
@@ -74,19 +74,11 @@ public class SoftwareFragment extends BaseFragment implements ISoftwareContract.
 
     @Override
     protected void initListener() {
-        mAdapter.setListener(new SoftwareMainAdapter.OnClickListener() {
+        mBtnCollection.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(int id, AppBean bean) {
-                switch (id) {
-                    case R.id.tab_category:
-                        ClassifyActivity.actionStart(mActivity, "软件", Constant.SOFTWARE_CATEGORIES, Constant.SOFTWARE_CATEGORY_ID);
+            public void onClick(View v) {
+                ClassifyActivity.actionStart(mActivity, "软件", Constant.SOFTWARE_CATEGORIES, Constant.SOFTWARE_CATEGORY_ID);
 
-                        break;
-                    case R.id.tab_collection:
-                        break;
-                    default:
-                        break;
-                }
             }
         });
     }

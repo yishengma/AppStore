@@ -27,9 +27,6 @@ import piratehat.appstore.R;
  */
 
 public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements IDataAdapter<List<AppBean>> {
-    private static final int ITEM = 1;
-    private static final int HEAD = 0;
-
 
     private List<AppBean> mAppBeans;
     private Context mContext;
@@ -46,7 +43,6 @@ public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public SoftwareMainAdapter(List<AppBean> appBeans, Context context) {
         mAppBeans = appBeans;
-        mAppBeans.add(null);
         mContext = context;
     }
 
@@ -55,13 +51,10 @@ public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
-        if (viewType == HEAD) {
-            viewHolder = new HeaderViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_two_navigation, parent, false));
-        }
-        if (viewType == ITEM) {
-            viewHolder = new ItemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_app, parent, false));
-        }
-        assert viewHolder != null;
+
+        viewHolder = new ItemViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_app, parent, false));
+
+
         return viewHolder;
     }
 
@@ -74,9 +67,9 @@ public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             Glide.with(mContext).load(appBean.getIconUrl()).into(((SoftwareMainAdapter.ItemViewHolder) holder).mImvIcon);
 
 
-            ((SoftwareMainAdapter.ItemViewHolder) holder).mTvInfo.setText(appBean.getIntro() );
+            ((SoftwareMainAdapter.ItemViewHolder) holder).mTvInfo.setText(appBean.getIntro());
             ((SoftwareMainAdapter.ItemViewHolder) holder).mTvName.setText(appBean.getName());
-            ((SoftwareMainAdapter.ItemViewHolder) holder).mTvHot.setText( appBean.getAppSize()+appBean.getHot());
+            ((SoftwareMainAdapter.ItemViewHolder) holder).mTvHot.setText(appBean.getAppSize() + appBean.getHot());
         }
     }
 
@@ -85,10 +78,6 @@ public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return mAppBeans.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return position == HEAD ? HEAD : ITEM;
-    }
 
 
     @Override
@@ -109,33 +98,6 @@ public class SoftwareMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return mAppBeans.size() == 0;
     }
 
-    static class HeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.tab_category)
-        LinearLayout mCategory;
-        @BindView(R.id.tab_collection)
-        LinearLayout mCollection;
-
-        HeaderViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-
-            ((ImageView) mCategory.getChildAt(0)).setImageResource(R.drawable.tab_category);
-            ((ImageView) mCollection.getChildAt(0)).setImageResource(R.drawable.tab_collection);
-
-            ((TextView) mCategory.getChildAt(1)).setText("分类");
-            ((TextView) mCollection.getChildAt(1)).setText("合集");
-            mCategory.setOnClickListener(this);
-            mCollection.setOnClickListener(this);
-
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (mListener != null) {
-                mListener.onClick(v.getId(), null);
-            }
-        }
-    }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imv_icon)
