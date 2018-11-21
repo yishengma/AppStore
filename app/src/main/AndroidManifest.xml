@@ -4,6 +4,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 缓存模块需要该权限 -->
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE"/>
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE"/>
 
     <application
         android:name=".app.App"
@@ -26,7 +32,13 @@
         <activity android:name=".ui.TencentActivity" />
         <activity android:name=".ui.BoutiqueActivity" />
         <activity android:name=".ui.ClassifyActivity" />
-        <activity android:name=".ui.AppDetailsActivity"></activity>
+        <activity android:name=".ui.AppDetailsActivity">
+
+        </activity>
+
+
+        <!-- 注册service -->
+        <service android:name="com.yaoxiaowen.download.service.DownloadService"/>
     </application>
 
 </manifest>

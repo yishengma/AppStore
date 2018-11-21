@@ -28,6 +28,7 @@ import piratehat.appstore.presenter.SoftwarePresenter;
 import piratehat.appstore.ui.ClassifyActivity;
 
 /**
+ *
  * Created by PirateHat on 2018/10/27.
  */
 

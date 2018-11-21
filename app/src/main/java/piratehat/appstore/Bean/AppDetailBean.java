@@ -13,15 +13,25 @@ public class AppDetailBean {
     private String mName;
     private String mScore;
     private String mBaseInfo;
+    private String mSize;
 
     private ArrayList<String> mImageList;
 
     private String mInfo;
     private String mDetailInfo;
 
+    private String mDownloadUrl;
+
     public AppDetailBean() {
     }
 
+    public String getSize() {
+        return mSize == null ? "" : mSize;
+    }
+
+    public void setSize(String size) {
+        mSize = size;
+    }
 
     public String getIcon() {
         return mIcon == null ? "" : mIcon;
@@ -79,6 +89,13 @@ public class AppDetailBean {
         mDetailInfo = detailInfo;
     }
 
+    public String getDownloadUrl() {
+        return mDownloadUrl == null ? "" : mDownloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        mDownloadUrl = downloadUrl;
+    }
 
     @Override
     public String toString() {

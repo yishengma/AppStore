@@ -264,7 +264,6 @@ public class JsoupUtil {
         Document document = Jsoup.parse(s);
         AppDetailBean bean = new AppDetailBean();
         Element element = document.getElementById("J_DetDataContainer");
-        Log.e(TAG, "getAppDetailInfo: "+element );
         Element element1 = element.getElementsByTag("div").first();
         Element element19 = element1.getElementsByClass("det-ins-container J_Mod ").first();
         Element element2 = element19.getElementsByClass("det-icon").first();
@@ -287,7 +286,7 @@ public class JsoupUtil {
         Element element7 = element24.getElementsByClass("det-size").first();
 
         bean.setBaseInfo(element6.text() + "~" + element7.text());//
-
+        bean.setSize(element7.text());
 
         Element element29 = element1.getElementsByClass("det-pic-scroll-container").first();
         Element element30 = element29.getElementsByClass("pic-turn-hover-box").first();
@@ -321,17 +320,13 @@ public class JsoupUtil {
 
         Element element26 = element25.getElementsByClass("det-app-data-info").first();
         String s1 = element26.text();
-        String s2 = s1.replace("<br>", "\n");
+        String s2 = s1.replace("<br>", "\\r\\n");
         String s3 = s2.replace("\"", "");
-
         bean.setDetailInfo(s3);
-
-
-        Log.e(TAG, "getAppDetailInfo: " + bean);
-
-
+        Element element4 = element19.getElementsByClass("det-ins-btn-box").first();
+        Element element27 = element4.getElementsByTag("a").first();
+        bean.setDownloadUrl(element27.attr("ex_url"));
         return bean;
-
 
     }
 

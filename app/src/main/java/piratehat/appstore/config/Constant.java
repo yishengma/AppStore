@@ -118,4 +118,9 @@ public class Constant {
             122,102,110,103,108,115,106,101,119,104,114,117,107,112,118,111,109,105,100,113,116
     };
 
+    public static final int DOWN = 0;
+    public static final int RUNNING = 1;
+    public static final int CLEAR_DOWN = 2;
+
+
 }

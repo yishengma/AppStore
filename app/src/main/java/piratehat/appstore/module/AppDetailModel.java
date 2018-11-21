@@ -1,5 +1,6 @@
 package piratehat.appstore.module;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -40,4 +41,6 @@ public class AppDetailModel implements IAppDetailsContract.IModel {
             }
         }, map);
     }
+
+
 }

@@ -15,4 +15,9 @@
     <color name="colorTextBlack">#060606</color>
     <color name="colorTextGrey">#c9c8c8</color>
     <color name="colorDownload">#509dfe</color>
+
+    <color name="colorGreen">#76e158</color>
+    <color name="colorOrange">#e1ac58</color>
+    <color name="colorRed">#ff4147</color>
+
 </resources>
