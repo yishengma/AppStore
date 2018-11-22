@@ -19,5 +19,5 @@
     <color name="colorGreen">#76e158</color>
     <color name="colorOrange">#e1ac58</color>
     <color name="colorRed">#ff4147</color>
-
+    <drawable name="progress">#509dfe</drawable>
 </resources>

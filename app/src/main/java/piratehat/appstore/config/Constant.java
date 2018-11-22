@@ -122,5 +122,16 @@ public class Constant {
     public static final int RUNNING = 1;
     public static final int CLEAR_DOWN = 2;
 
+    /**
+     * DiskCache
+     */
+    public static final long CACHE_MAXSIZE = 10 * 1024 * 1024;
+
+
+    //SecretUtil
+    public static String NOSUCHALGORITHM = "不支持此种加密方式";
+    public static String UNSUPPENCODING = "不支持的编码格式";
+
+
 
 }

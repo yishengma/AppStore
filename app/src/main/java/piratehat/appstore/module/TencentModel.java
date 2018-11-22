@@ -13,6 +13,7 @@ import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
 import piratehat.appstore.contract.ITencentContract;
+import piratehat.appstore.diskCache.DiskCacheManager;
 import piratehat.appstore.dto.AppsDataDto;
 import piratehat.appstore.dto.CategoryAppsDto;
 import piratehat.appstore.utils.GsonUtil;
@@ -31,6 +32,11 @@ public class TencentModel implements ITencentContract.IModel {
 
     @Override
     public void getAppsList(final ITencentContract.IPresenter presenter) {
+//        List list;
+//        if ((list= DiskCacheManager.getDiskInstance().getList(Url.SOFTWARE_ALL,AppBean.class))!=null&&list.size()!=0){
+//            presenter.setAppsList((ArrayList<AppBean>) list);
+//            return;
+//        }
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
         OkHttpUtil.getInstance().getAsync(Url.TENCENT_PAGE, new OkHttpResultCallback() {
@@ -43,6 +49,8 @@ public class TencentModel implements ITencentContract.IModel {
             public void onResponse(String msg) {
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
                 presenter.setAppsList(beans);
+//                DiskCacheManager.getDiskInstance().put(Url.SOFTWARE_ALL,beans);
+
             }
         }, map);
     }

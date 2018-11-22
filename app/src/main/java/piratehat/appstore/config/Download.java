@@ -9,8 +9,7 @@ public class Download {
        public final static int NEW = 0;
        public final static int DOWNLOADING = 1;
        public static final int FINISHED = 2;
+       public static final int PAUSE = 3;
    }
-
-
 
 }

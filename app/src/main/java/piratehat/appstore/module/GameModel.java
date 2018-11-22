@@ -18,7 +18,7 @@ import piratehat.appstore.contract.IGameContract;
 import piratehat.appstore.contract.ISoftwareContract;
 import piratehat.appstore.dto.AppsDataDto;
 import piratehat.appstore.dto.CategoryAppsDto;
-import piratehat.appstore.utils.Cache;
+
 import piratehat.appstore.utils.GsonUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;

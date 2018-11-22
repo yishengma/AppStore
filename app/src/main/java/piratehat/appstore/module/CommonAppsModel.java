@@ -16,6 +16,7 @@ import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
 import piratehat.appstore.contract.IAppsContract;
+import piratehat.appstore.diskCache.DiskCacheManager;
 import piratehat.appstore.dto.AppsDataDto;
 import piratehat.appstore.dto.CategoryAppsDto;
 import piratehat.appstore.utils.GsonUtil;
@@ -59,7 +60,11 @@ public class CommonAppsModel implements IAppsContract.IModel {
 
     @Override
     public void getCategory(final IAppsContract.IPresenter presenter, String category) {
-
+//         List list;
+//        if ((list=DiskCacheManager.getDiskInstance().getList(Url.CATEGORY + mCategory+Url.MORE_MODE[0],AppBean.class))!=null&&list.size()!=0){
+//            presenter.setResult((ArrayList<AppBean>) list);
+//            return;
+//        }
 
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
@@ -73,6 +78,7 @@ public class CommonAppsModel implements IAppsContract.IModel {
             public void onResponse(String msg) {
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, CategoryAppsDto.class).transform();
                 presenter.setResult(beans);
+//                DiskCacheManager.getDiskInstance().put(Url.CATEGORY + mCategory+Url.MORE_MODE[0],beans);
             }
         }, map);
     }

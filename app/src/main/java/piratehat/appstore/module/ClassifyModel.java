@@ -15,13 +15,14 @@ import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
 import piratehat.appstore.contract.IAppsContract;
+import piratehat.appstore.diskCache.DiskCacheManager;
 import piratehat.appstore.dto.AppsDataDto;
-import piratehat.appstore.utils.Cache;
 import piratehat.appstore.utils.GsonUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
 
 /**
+ *
  * Created by PirateHat on 2018/11/18.
  */
 
@@ -39,7 +40,6 @@ public class ClassifyModel implements IAppsContract.IModel {
 
     @Override
     public RequestHandle refresh(ResponseSender<List<AppBean>> sender) throws Exception {
-        sender.sendData(Cache.getInstance().getList(mID));
         return new OkHttpRequestHandle();
      }
 
@@ -56,14 +56,16 @@ public class ClassifyModel implements IAppsContract.IModel {
 
     @Override
     public void getCategory(final IAppsContract.IPresenter presenter, String category) {
-         if (Cache.getInstance().getList(mID)!=null){
-             presenter.setResult(Cache.getInstance().getList(mID));
-             return;
-         }
+
+//        final List list;
+//        if ((list=DiskCacheManager.getDiskInstance().getList(Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT,AppBean.class))!=null&&list.size()!=0){
+//            presenter.setResult((ArrayList<AppBean>) list);
+//            return;
+//        }
 
         final Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
-        Log.e(TAG, "getCategory: " + Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT + mPageContext);
+
         OkHttpUtil.getInstance().getAsync(Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT + mPageContext, new OkHttpResultCallback() {
             @Override
             public void onError(Call call, Exception e) {
@@ -76,7 +78,8 @@ public class ClassifyModel implements IAppsContract.IModel {
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
                 mHasMore = beans.size() != 0;
                 presenter.setResult(beans);
-                Cache.getInstance().setListInMap(mID,beans);
+//                DiskCacheManager.getDiskInstance().put(Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT,beans);
+
 
             }
         }, map);

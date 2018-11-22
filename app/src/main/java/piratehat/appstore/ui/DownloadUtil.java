@@ -13,7 +13,7 @@ public class DownloadUtil {
 
 
     private static DownloadUtil sDownlaod;
-    private int mActionCount;
+
 
 
     private HashMap<String, State> mMap;
@@ -52,34 +52,11 @@ public class DownloadUtil {
        mMap.put(url,state1);
     }
 
-    public String setAction(String url){
-        State state = new State();
-        state.setState(NEW);
-        state.setAction(String.valueOf(mActionCount++));
-        mMap.put(url,state);
-        return state.getAction();
-    }
 
-    public String getAction(String url){
-        State state = mMap.get(url);
-        if (state!=null){
-            return state.getAction();
-        }
-        return null;
-    }
 
 
     class State {
         private int mState;
-        private String mAction;
-
-        public String getAction() {
-            return mAction == null ? "" : mAction;
-        }
-
-        public void setAction(String action) {
-            mAction = action;
-        }
 
         public int getState() {
             return mState;

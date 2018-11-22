@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/colorBackgroundWhite"
+    android:orientation="horizontal">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDividerGray" />
+
+    <ImageView
+        android:id="@+id/imv_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="15dp" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imv_icon"
+        android:layout_marginStart="15dp"
+        android:layout_toEndOf="@+id/imv_icon"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="10sp" />
+
+    <ProgressBar
+        android:id="@+id/progress_load"
+        android:max="100"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="150dp"
+        android:layout_height="3dp"
+        android:layout_below="@+id/tv_name"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/imv_icon"
+        android:progressDrawable="@drawable/progress_bg" />
+
+    <TextView
+        android:id="@+id/btn_download"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/download_shape"
+        android:gravity="center"
+        android:shadowColor="@color/colorBackgroundWhite"
+        android:text="@string/download"
+        android:textColor="@color/colorDownload"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorDividerGray" />
+
+</RelativeLayout>

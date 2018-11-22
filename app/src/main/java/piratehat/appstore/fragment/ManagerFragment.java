@@ -10,12 +10,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
 
+import android.util.Log;
 import android.view.View;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
@@ -39,13 +42,12 @@ import static piratehat.appstore.config.Constant.CLEAR_DOWN;
 
 public class ManagerFragment extends BaseFragment {
 
-    @BindView(R.id.tool_bar)
-    Toolbar mToolBar;
+
     @BindView(R.id.tv_cache)
     TextView mTvCache;
     @BindView(R.id.tv_files)
     TextView mTvFiles;
-
+    private static final String TAG = "ManagerFragment";
 
     private PackageManager mPackageManager;
     private ExecutorService mSingleExecutor;
@@ -68,7 +70,7 @@ public class ManagerFragment extends BaseFragment {
         mHandler = new CacheHandler(this);
         mSingleExecutor = Executors.newSingleThreadExecutor();
         mHasClear = false;
-        mWait= true;
+        mWait = true;
 
     }
 
@@ -76,6 +78,7 @@ public class ManagerFragment extends BaseFragment {
     @Override
     protected void initView() {
         mTvCache.setText("缓存清理");
+
     }
 
     @Override
@@ -90,6 +93,7 @@ public class ManagerFragment extends BaseFragment {
                 } else {
                     mHasClear = false;
                     clearAppCache();
+                    Toast.makeText(mActivity, "没有权限", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -118,19 +122,15 @@ public class ManagerFragment extends BaseFragment {
 
     }
 
+    @SuppressLint("PrivateApi")
     private void cleanAll() {
-        Method[] methods = PackageManager.class.getMethods();
-        for (Method method : methods) {
-            if ("freeStorageAndNotify".equals(method.getName())) {
-                try {
-                    method.invoke(mPackageManager, Long.MAX_VALUE, new CleanCacheObserver(this));//清空缓存
-                    return;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return;
-                }
-            }
+        try {
+            Method method = PackageManager.class.getDeclaredMethod("freeStorageAndNotify", String.class, long.class, IPackageDataObserver.class);
+            method.invoke(mPackageManager, null, Long.MAX_VALUE, new CleanCacheObserver(this));//清空缓存
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
         }
+
     }
 
 
@@ -140,8 +140,8 @@ public class ManagerFragment extends BaseFragment {
             List<PackageInfo> packageInfoList = mPackageManager.getInstalledPackages(0);
             for (PackageInfo packageInfo : packageInfoList) {
                 getCacheSize(packageInfo);
-                for (;;){
-                    if (!mWait){
+                for (; ; ) {
+                    if (!mWait) {
                         break;
                     }
                 }
@@ -186,7 +186,6 @@ public class ManagerFragment extends BaseFragment {
                     PackageInfo packageInfo = (PackageInfo) msg.obj;
                     managerFragment.mTvFiles.setText(String.format("正在扫描%s", packageInfo.packageName));
                     String[] str = Formatter.formatFileSize(managerFragment.mActivity, managerFragment.mCacheMem).split(" ");
-
                     managerFragment.mTvCache.setText(str[0] + (str.length > 1 ? str[1] : ""));
 
                     break;

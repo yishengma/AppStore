@@ -96,25 +96,20 @@ public class AppDetailsActivity extends BaseActivity implements IAppDetailsContr
         mUrls = new ArrayList<>();
         mAdapter = new ImageAdapter(mUrls, this);
         mVpContent.setAdapter(mAdapter);
-        //广播不要忘记注册和反注册。
-
         mPresenter.getAppDetailInfo(apkName);
 
     }
 
     @Override
     protected void initListener() {
-
         mBtnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(mDownloadUrl) && DownloadUtil.getInstance().getState(mDownloadUrl).getState() != Download.State.FINISHED) {
                     IntentFilter filter = new IntentFilter();
                     filter.addAction(mDownloadUrl);
-                    registerReceiver(receiver, filter);
-                     mPresenter.download(mName,mDownloadUrl);
-
-
+                    registerReceiver(receiver, filter);//
+                    mPresenter.download(mName,mDownloadUrl);
                 }
             }
         });
