@@ -56,7 +56,7 @@ public class RankAppsAdapter extends  RecyclerView.Adapter<RankAppsAdapter.ItemV
         return mAppBeans.size();
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
+     class ItemViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imv_icon)
         ImageView mImvIcon;
         @BindView(R.id.tv_name)

@@ -69,4 +69,9 @@ public class RankFragment extends BaseFragment {
         return fragment;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.getmRerWatcher().watch(this);
+    }
 }

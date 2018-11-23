@@ -50,7 +50,7 @@ public class DiskCacheManager {
         }
     }
 
-    public static DiskCacheManager getDiskInstance() {
+    public static DiskCacheManager getDiskInstance(){
         if (mCacheManager == null) {
             mCacheManager = new DiskCacheManager();
 
@@ -167,111 +167,9 @@ public class DiskCacheManager {
         }
     }
 
-    /*************************
-     * Json对象读写
-     *************************/
-    //Json 数据转换成 String 存储
-    private void put(String key, JSONObject value) {
-        put(key, value.toString());
-    }
-
-    //取得 json 字符串再转为 Json对象
-    private JSONObject getJsonObject(String key) {
-        String json = getString(key);
-        try {
-            return new JSONObject(json);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /*************************
-     * Json数组对象读写
-     *************************/
-
-    public void put(String key, List list) {
-        put(key, GsonUtil.gsonToJsonArray(list));
-    }
 
 
-    private void put(String key, JSONArray array) {
-        put(key, array.toString());
-    }
 
-    public <T> List<T> getList(String key, Class<T> cls) {
-        try {
-            return GsonUtil.gsonToList(new JSONArray(getString(key)).toString(), cls);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /*************************
-     * byte 数据读写
-     *************************/
-    /**
-     * 存入byte数组
-     *
-     * @param key   cache'key
-     * @param bytes bytes to save
-     */
-    private void put(String key, byte[] bytes) {
-        OutputStream out = null;
-        DiskLruCache.Editor editor = null;
-        try {
-            editor = edit(key);
-            if (editor == null) {
-                return;
-            }
-            out = editor.newOutputStream(0);
-            out.write(bytes);
-            out.flush();
-            editor.commit();
-        } catch (IOException e) {
-            e.printStackTrace();
-            try {
-                if (editor != null) {
-                    editor.abort();
-                }
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        } finally {
-            CloseQuicklyUtil.close(out);
-        }
-    }
-
-    /**
-     * 获取缓存的 byte 数组
-     *
-     * @param key cache'key
-     * @return bytes
-     */
-    private byte[] getBytes(String key) {
-        byte[] bytes = null;
-        InputStream inputStream = getCacheInputStream(key);
-        if (inputStream == null) {
-            return null;
-        }
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] buf = new byte[256];
-        int len = 0;
-        try {
-            while ((len = inputStream.read(buf)) != -1) {
-                bos.write(buf, 0, len);
-            }
-            bytes = bos.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bytes;
-    }
-
-    /*************************
-     * 序列化对象数据读写
-     *************************/
 
     /**
      * 序列化对象写入

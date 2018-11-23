@@ -60,6 +60,6 @@ public class MainPresenter implements IMainContract.IPresenter {
 
     @Override
     public IAsyncDataSource getRefreshData() {
-        return new MainAppsModel();
+        return new MainAppsModel(this);
     }
 }

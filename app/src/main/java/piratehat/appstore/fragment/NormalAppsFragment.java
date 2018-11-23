@@ -18,6 +18,7 @@ import butterknife.Unbinder;
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.CommonAppsAdapter;
+import piratehat.appstore.app.App;
 
 /**
  *
@@ -67,6 +68,13 @@ public class NormalAppsFragment extends BaseFragment {
         bundle.putSerializable("apps", appBeans);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.getmRerWatcher().watch(this);
     }
 
 }

@@ -27,8 +27,6 @@ import piratehat.appstore.R;
 
 public class CommonAppsAdapter extends RecyclerView.Adapter<CommonAppsAdapter.ViewHolder> implements IDataAdapter<List<AppBean>> {
 
-
-
     private Context mContext;
     private List<AppBean> mAppBeans;
 
@@ -77,7 +75,7 @@ public class CommonAppsAdapter extends RecyclerView.Adapter<CommonAppsAdapter.Vi
         return mAppBeans.size()==0;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.imv_icon)
         ImageView mImvIcon;

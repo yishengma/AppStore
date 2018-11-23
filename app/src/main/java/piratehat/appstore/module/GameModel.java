@@ -24,6 +24,7 @@ import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
 
 /**
+ *
  * Created by PirateHat on 2018/11/13.
  */
 
@@ -45,12 +46,13 @@ public class GameModel implements IGameContract.IModel {
 
             @Override
             public void onResponse(String msg) {
+                Log.e(TAG, "onResponse: "+msg );
                 ArrayList<AppBean> beans = new ArrayList<>();
                 try {
                     beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
 
                 } catch (IllegalStateException e) {
-                    Log.e(TAG, "onResponse: "+e.getMessage() );
+
                 } finally {
                     mHasMore = beans.size() != 0;
                     presenter.setAppsList(beans);

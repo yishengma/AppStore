@@ -10,13 +10,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
-
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,26 +26,31 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import butterknife.BindView;
-
-
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import piratehat.appstore.R;
+import piratehat.appstore.app.App;
 import piratehat.appstore.config.Constant;
+import piratehat.appstore.ui.ApkActivity;
 
 import static piratehat.appstore.config.Constant.CLEAR_DOWN;
 
 /**
- *
  * Created by PirateHat on 2018/10/27.
  */
 
 public class ManagerFragment extends BaseFragment {
-
 
     @BindView(R.id.tv_cache)
     TextView mTvCache;
     @BindView(R.id.tv_files)
     TextView mTvFiles;
     private static final String TAG = "ManagerFragment";
+    @BindView(R.id.btn_download)
+    Button mBtnDownload;
+    @BindView(R.id.btn_apk)
+    Button mBtnApk;
+
 
     private PackageManager mPackageManager;
     private ExecutorService mSingleExecutor;
@@ -97,6 +100,13 @@ public class ManagerFragment extends BaseFragment {
                 }
             }
         });
+
+        mBtnApk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ApkActivity.actionStart(mActivity,ApkActivity.class);
+            }
+        });
     }
 
     private void fetchAppCache() {
@@ -132,6 +142,7 @@ public class ManagerFragment extends BaseFragment {
         }
 
     }
+
 
 
     private class FetchThread extends Thread {
@@ -232,5 +243,12 @@ public class ManagerFragment extends BaseFragment {
         public void onRemoveCompleted(String packageName, boolean succeeded) throws RemoteException {
             mReference.get().mHandler.sendEmptyMessage(CLEAR_DOWN);
         }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.getmRerWatcher().watch(this);
     }
 }

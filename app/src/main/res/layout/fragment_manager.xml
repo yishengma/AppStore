@@ -57,6 +57,7 @@
         android:background="@color/colorDividerGray" />
 
     <Button
+        android:id="@+id/btn_download"
         android:textColor="@color/colorTextBlack"
         android:textSize="15sp"
         android:background="@color/colorBackgroundWhite"
@@ -74,6 +75,7 @@
         android:background="@color/colorDividerGray" />
 
     <Button
+        android:id="@+id/btn_apk"
         android:textColor="@color/colorTextBlack"
         android:textSize="15sp"
         android:background="@color/colorBackgroundWhite"

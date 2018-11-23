@@ -49,8 +49,8 @@ public class MainModule implements IMainContract.IModel {
             public void onResponse(String msg) {
 
                presenter.setBanner((ArrayList<BannerBean>) JsoupUtil.getInstance().getBanner(msg));
-               presenter.setRankApps((JsoupUtil.getInstance().getRankApps(msg)));
-               presenter.setBoutiqueApps(JsoupUtil.getInstance().getBoutiqueApps(msg));
+//               presenter.setRankApps((JsoupUtil.getInstance().getRankApps(msg)));
+//               presenter.setBoutiqueApps(JsoupUtil.getInstance().getBoutiqueApps(msg));
 //                DiskCacheManager.getDiskInstance().put(Url.MAIN_PAGE,msg);
 
             }

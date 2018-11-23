@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
+
 import java.io.File;
 
 /**
- *
  * Created by PirateHat on 2018/10/27.
  */
 
@@ -16,13 +18,28 @@ public class App extends Application {
     private static File mkdirs;
     private static File mCache;
     private static Context mContext;
+    private static RefWatcher mRerWatcher;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {//1
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        mRerWatcher = LeakCanary.install(this);
+
         mCache = getExternalCacheDir();
 
         mContext = getApplicationContext();
+
+
+    }
+
+    public static RefWatcher getmRerWatcher() {
+        return mRerWatcher;
     }
 
     public static Context getContext() {

@@ -22,6 +22,7 @@ import butterknife.Unbinder;
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.SoftwareMainAdapter;
+import piratehat.appstore.app.App;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.contract.ISoftwareContract;
 import piratehat.appstore.presenter.SoftwarePresenter;
@@ -90,4 +91,9 @@ public class SoftwareFragment extends BaseFragment implements ISoftwareContract.
         mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.getmRerWatcher().watch(this);
+    }
 }

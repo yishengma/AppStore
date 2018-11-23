@@ -17,6 +17,7 @@ import butterknife.BindView;
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.CommonAppsAdapter;
+import piratehat.appstore.app.App;
 import piratehat.appstore.contract.IAppsContract;
 import piratehat.appstore.presenter.AppPresenter;
 
@@ -104,5 +105,10 @@ public class RefreshAppsFragment extends BaseFragment implements IAppsContract.I
         return fragment;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.getmRerWatcher().watch(this);
+    }
 
 }

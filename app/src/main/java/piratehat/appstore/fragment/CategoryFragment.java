@@ -8,6 +8,7 @@ import butterknife.BindView;
 
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.CategoryAdapter;
+import piratehat.appstore.app.App;
 import piratehat.appstore.ui.CategoryDetailsActivity;
 
 /**
@@ -64,5 +65,9 @@ public class CategoryFragment extends BaseFragment {
         return fragment;
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.getmRerWatcher().watch(this);
+    }
 }

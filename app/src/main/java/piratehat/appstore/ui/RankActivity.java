@@ -25,9 +25,11 @@ import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.Bean.SerializableMap;
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.ViewPagerAdapter;
+import piratehat.appstore.contract.IRankContract;
 import piratehat.appstore.fragment.RankFragment;
+import piratehat.appstore.presenter.RankPresenter;
 
-public class RankActivity extends AppCompatActivity {
+public class RankActivity extends AppCompatActivity implements IRankContract.IView{
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
     @BindView(R.id.tl_navigation)
@@ -39,6 +41,7 @@ public class RankActivity extends AppCompatActivity {
     private static final String TAG = "RankActivity";
     private Map mAppsMap;
     public static final String[] sRANK = new String[]{"游戏下载", "软件下载", "动作游戏", "棋牌游戏", "社交软件"};
+    private RankPresenter mPresenter;
 
     //应用下载
     //游戏下载
@@ -64,24 +67,14 @@ public class RankActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         mToolBar.setTitle("榜单");
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        for (int i = 0; i < sRANK.length; i++) {
-            viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get(sRANK[i])));
-        }
 
-        mVpContent.setAdapter(viewPagerAdapter);
-        mTlNavigation.setupWithViewPager(mVpContent);
-
-        for (int i = 0; i < sRANK.length; i++) {
-            mTlNavigation.getTabAt(i).setText(sRANK[i]);
-        }
 
 
     }
 
     private void initData() {
-
-        mAppsMap = ((SerializableMap) getIntent().getBundleExtra("bundle").getSerializable("map")).getMap();
+        mPresenter = new RankPresenter(this);
+        mPresenter.getRankMap();
 
 
     }
@@ -112,6 +105,27 @@ public class RankActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void showError() {
+
+    }
+
+    @Override
+    public void setRankMap(Map map) {
+
+        mAppsMap = map;
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        for (int i = 0; i < sRANK.length; i++) {
+            viewPagerAdapter.addFragment(RankFragment.newInstance((ArrayList) mAppsMap.get(sRANK[i])));
+        }
+
+        mVpContent.setAdapter(viewPagerAdapter);
+        mTlNavigation.setupWithViewPager(mVpContent);
+
+        for (int i = 0; i < sRANK.length; i++) {
+            mTlNavigation.getTabAt(i).setText(sRANK[i]);
+        }
+    }
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, RankActivity.class);

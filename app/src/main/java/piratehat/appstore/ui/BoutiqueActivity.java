@@ -23,9 +23,12 @@ import piratehat.appstore.Bean.SerializableMap;
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.ViewPagerAdapter;
 
+import piratehat.appstore.contract.IBoutiqueContract;
+import piratehat.appstore.contract.IRankContract;
 import piratehat.appstore.fragment.NormalAppsFragment;
+import piratehat.appstore.presenter.BoutiquePresenter;
 
-public class BoutiqueActivity extends BaseActivity {
+public class BoutiqueActivity extends BaseActivity implements IBoutiqueContract.IView{
 
 
     @BindView(R.id.tool_bar)
@@ -37,6 +40,7 @@ public class BoutiqueActivity extends BaseActivity {
     private static final String TAG = "BoutiqueActivity";
     private Map mMap;
     private String[] mMsg;
+    private BoutiquePresenter mPresenter;
 
     @Override
     protected int setResId() {
@@ -54,6 +58,33 @@ public class BoutiqueActivity extends BaseActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         mToolBar.setTitle("精品");
 
+
+
+
+
+    }
+
+    @Override
+    protected void initData(Bundle bundle) {
+        mMsg = new String[]{"精品游戏","精品软件","角色扮演","生活","理财","社交","男生","女生"};
+        mPresenter= new BoutiquePresenter(this);
+        mPresenter.getBoutiqueMap();
+
+    }
+
+    @Override
+    protected void initListener() {
+
+    }
+
+    @Override
+    public void showError() {
+
+    }
+
+    @Override
+    public void setBoutiqueMap(Map map) {
+        mMap = map;
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         for (int i = 0; i < mMsg.length; i++) {
 
@@ -67,23 +98,7 @@ public class BoutiqueActivity extends BaseActivity {
             assert tab != null;
             tab.setText(mMsg[i]);
         }
-
-
-
     }
-
-    @Override
-    protected void initData(Bundle bundle) {
-        mMap =  ((SerializableMap) getIntent().getBundleExtra("bundle").getSerializable("map")).getMap();
-        mMsg = new String[]{"精品游戏","精品软件","角色扮演","生活","理财","社交","男生","女生"};
-
-    }
-
-    @Override
-    protected void initListener() {
-
-    }
-
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, BoutiqueActivity.class);

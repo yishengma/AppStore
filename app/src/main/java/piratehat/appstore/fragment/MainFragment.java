@@ -25,6 +25,7 @@ import piratehat.appstore.Bean.BannerBean;
 import piratehat.appstore.Bean.SerializableMap;
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.MainAppsAdapter;
+import piratehat.appstore.app.App;
 import piratehat.appstore.contract.IMainContract;
 import piratehat.appstore.presenter.MainPresenter;
 import piratehat.appstore.ui.AppDetailsActivity;
@@ -54,8 +55,8 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
     private MainAppsAdapter mAppsAdapter;
     private IMainContract.IPresenter mPresenter;
     private MVCHelper<List<AppBean>> mMVCHelper;
-    private Map<String, List<AppBean>> mRankMap;
-    private Map<String, List<AppBean>> mBoutiqueMap;
+//    private Map<String, List<AppBean>> mRankMap;
+//    private Map<String, List<AppBean>> mBoutiqueMap;
 
     @Override
     protected int setLayoutResId() {
@@ -71,8 +72,8 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
         mMVCHelper.setDataSource(mPresenter.getRefreshData());
         mAppsAdapter = new MainAppsAdapter(mActivity);
         mMVCHelper.setAdapter(mAppsAdapter);
-        mRankMap = new HashMap<>();
-        mBoutiqueMap = new HashMap<>();
+//        mRankMap = new HashMap<>();
+//        mBoutiqueMap = new HashMap<>();
         mPresenter.getMainPage();
         mMVCHelper.refresh();
 
@@ -95,18 +96,17 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
                         CategoryActivity.actionStart(mActivity);
                         break;
                     case R.id.tab_rank:
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("map", new SerializableMap(mRankMap));
-                        RankActivity.actionStart(mActivity, bundle);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("map", new SerializableMap(mRankMap));
+                        RankActivity.actionStart(mActivity);
                         break;
                     case R.id.tab_tencent:
                         TencentActivity.actionStart(mActivity, TencentActivity.class);
                         break;
                     case R.id.tab_boutique:
-                        Bundle bundle1 = new Bundle();
-                        SerializableMap map = new SerializableMap(mBoutiqueMap);
-                        bundle1.putSerializable("map", map);
-                        BoutiqueActivity.actionStart(mActivity, BoutiqueActivity.class, bundle1);
+
+
+                        BoutiqueActivity.actionStart(mActivity, BoutiqueActivity.class);
                         break;
                     default:
                         break;
@@ -124,7 +124,7 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
 
     @Override
     public void setRankApps(Map<String, List<AppBean>> beans) {
-        mRankMap = beans;
+//        mRankMap = beans;
     }
 
     @Override
@@ -144,6 +144,14 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
 
     @Override
     public void setBoutiqueApps(Map<String, List<AppBean>> beans) {
-        mBoutiqueMap = beans;
+//        mBoutiqueMap = beans;
+    }
+
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        App.getmRerWatcher().watch(this);
     }
 }

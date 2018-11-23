@@ -100,7 +100,7 @@ public class GameMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mAppBeans.size()==0;
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
+     class ItemViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imv_icon)
         ImageView mImvIcon;
         @BindView(R.id.tv_name)

@@ -31,12 +31,13 @@
         <activity android:name=".ui.TencentActivity" />
         <activity android:name=".ui.BoutiqueActivity" />
         <activity android:name=".ui.ClassifyActivity" />
-        <activity android:name=".ui.AppDetailsActivity"></activity>
+        <activity android:name=".ui.AppDetailsActivity" />
 
         <!-- 注册service -->
         <service android:name="com.yaoxiaowen.download.service.DownloadService" />
 
-        <activity android:name=".ui.DownloadManagerActivity"></activity>
+        <activity android:name=".ui.DownloadManagerActivity" />
+        <activity android:name=".ui.ApkActivity"></activity>
     </application>
 
 </manifest>

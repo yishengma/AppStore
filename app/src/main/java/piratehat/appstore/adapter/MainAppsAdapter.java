@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import piratehat.appstore.R;
 import piratehat.appstore.utils.GlideImageLoader;
 
 /**
+ *
  * Created by PirateHat on 2018/10/28.
  */
 
@@ -36,11 +38,8 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int sBANNER = 1;
     private static final int sTAB_LAYOUT = 0;
     private static final int sITEM = 2;
-
-
     private List<AppBean> mAppBeans;
     private Context mContext;
-
     private boolean mIsPlay;
     private List<BannerBean> mBanners;
     private List<String> mTitles;
@@ -113,11 +112,12 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        if (holder instanceof BannerViewHolder && mBanners.size() != 0 && mTitles.size() != 0 && !mIsPlay) {
+        if (holder instanceof BannerViewHolder && mBanners.size() != 0 && mTitles.size() != 0 ) {
+            ((BannerViewHolder) holder).mBanner.releaseBanner();
             ((BannerViewHolder) holder).mBanner.setImages(mBanners);
             ((BannerViewHolder) holder).mBanner.setBannerTitles(mTitles);
             ((BannerViewHolder) holder).mBanner.start();
-            mIsPlay = true;
+
             return;
         }
 
@@ -165,9 +165,11 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void startBanner(ArrayList<BannerBean> beans, ArrayList<String> titles) {
         mBanners.addAll(beans);
         mTitles.addAll(titles);
+        Log.e(TAG, "startBanner: " );
+        notifyDataSetChanged();
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
+     class ItemViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imv_icon)
         ImageView mImvIcon;
         @BindView(R.id.tv_name)
@@ -185,7 +187,7 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    static class BannerViewHolder extends RecyclerView.ViewHolder {
+     class BannerViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.banner)
         Banner mBanner;
 
@@ -202,7 +204,7 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    static class NavigationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+     class NavigationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.tab_category)
         LinearLayout mCategory;
         @BindView(R.id.tab_rank)
