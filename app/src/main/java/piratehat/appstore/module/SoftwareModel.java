@@ -52,7 +52,6 @@ public class SoftwareModel implements ISoftwareContract.IModel {
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
                 mHasMore = beans.size() != 0;
                 presenter.setAppsList(beans);
-//                DiskCacheManager.getDiskInstance().put(Url.SOFTWARE_ALL,beans);
             }
         }, map);
     }

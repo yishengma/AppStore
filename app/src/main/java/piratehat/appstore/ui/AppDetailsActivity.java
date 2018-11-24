@@ -1,13 +1,20 @@
 package piratehat.appstore.ui;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -22,10 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.yaoxiaowen.download.DownloadConstant;
-import com.yaoxiaowen.download.DownloadHelper;
-import com.yaoxiaowen.download.DownloadStatus;
-import com.yaoxiaowen.download.FileInfo;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +45,9 @@ import piratehat.appstore.adapter.ImageAdapter;
 
 import piratehat.appstore.config.Download;
 import piratehat.appstore.contract.IAppDetailsContract;
+import piratehat.appstore.download.DownloadListener;
+import piratehat.appstore.download.DownloadService;
+import piratehat.appstore.download.DownloadTask;
 import piratehat.appstore.presenter.AppDetailPresenter;
 
 
@@ -72,8 +79,28 @@ public class AppDetailsActivity extends BaseActivity implements IAppDetailsContr
     private List<String> mUrls;
     private String mDownloadUrl;
     private String mName;
+    private String mSize;
+    private DownloadService.DownloadBinder mDownloadBinder;
+    private DownloadListener mListener;
+    private int mState;
+
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mDownloadBinder = (DownloadService.DownloadBinder) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
 
     private static final String TAG = "AppDetailsActivity";
+
     @Override
     protected int setResId() {
         return R.layout.activity_app_details;
@@ -91,28 +118,89 @@ public class AppDetailsActivity extends BaseActivity implements IAppDetailsContr
 
     @Override
     protected void initData(Bundle bundle) {
+        mState = -2;
         mPresenter = new AppDetailPresenter(this);
         String apkName = bundle.getString("apkName");
         mUrls = new ArrayList<>();
         mAdapter = new ImageAdapter(mUrls, this);
         mVpContent.setAdapter(mAdapter);
+
+        Intent intent = new Intent(this, DownloadService.class);
+        startService(intent);  //启动服务
+        bindService(intent, mConnection, BIND_AUTO_CREATE);
         mPresenter.getAppDetailInfo(apkName);
 
     }
 
     @Override
     protected void initListener() {
+
+        if (ContextCompat.checkSelfPermission(AppDetailsActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(AppDetailsActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
+        mListener = new DownloadListener() {
+            @Override
+            public void onProgress(int progress) {
+                mBtnDownload.setText((progress + "%"));
+                mState = -1;
+            }
+
+            @Override
+            public void onSuccess() {
+                mBtnDownload.setText("已完成");
+                mState = DownloadTask.TYPE_SUCCESS;
+            }
+
+            @Override
+            public void onFailed() {
+                mBtnDownload.setText("下载失败");
+                DownloadService.removeLitener(mDownloadUrl);
+                mState = DownloadTask.TYPE_FAILED;
+            }
+
+            @Override
+            public void onPaused() {
+                mBtnDownload.setText("暂停");
+                mState = DownloadTask.TYPE_PAUSED;
+            }
+
+            @Override
+            public void onCanceled() {
+                mBtnDownload.setText("下载(" + mSize + ")");
+                mState = DownloadTask.TYPE_CANCELED;
+
+            }
+        };
+
         mBtnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(mDownloadUrl) && DownloadUtil.getInstance().getState(mDownloadUrl).getState() != Download.State.FINISHED) {
-                    IntentFilter filter = new IntentFilter();
-                    filter.addAction(mDownloadUrl);
-                    registerReceiver(receiver, filter);//
-                    mPresenter.download(mName,mDownloadUrl);
+                Log.e(TAG, "onClick: "+mState );
+                switch (mState) {
+                    case -1:
+                        mDownloadBinder.pauseDownload();
+                        break;
+                    case DownloadTask.TYPE_CANCELED:
+                        break;
+                    case DownloadTask.TYPE_FAILED:
+                        mDownloadBinder.startDownload(mDownloadUrl,mName);
+                        break;
+                    case DownloadTask.TYPE_SUCCESS:
+                        break;
+                    case DownloadTask.TYPE_PAUSED:
+                        mDownloadBinder.startDownload(mDownloadUrl,mName);
+                        break;
+                    default:
+                        DownloadService.addListener(mDownloadUrl, mListener);
+                        mDownloadBinder.startDownload(mDownloadUrl,mName);
+                        break;
                 }
+
+
             }
         });
+
 
     }
 
@@ -147,9 +235,10 @@ public class AppDetailsActivity extends BaseActivity implements IAppDetailsContr
         mTvIntroduction.setText(appInfo.getDetailInfo());
         mUrls.addAll(appInfo.getImageList());
         mAdapter.notifyDataSetChanged();
-        mBtnDownload.setText("下载(" + appInfo.getSize() + ")");
+        mSize = appInfo.getSize();
+        mBtnDownload.setText("下载(" + mSize + ")");
         mDownloadUrl = appInfo.getDownloadUrl();
-        mName= appInfo.getName();
+        mName = appInfo.getName();
 
     }
 
@@ -167,49 +256,10 @@ public class AppDetailsActivity extends BaseActivity implements IAppDetailsContr
 
     }
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (null != intent) {
-                HashMap<String, DownloadUtil.State> map = DownloadUtil.getInstance().getMap();
-                for (String key : map.keySet()) {
-                    updateView(intent, key);
-                }
-            }
-
-        }
-    };
-
-    @SuppressLint("SetTextI18n")
-    private void updateView(Intent intent, String key) {
-        if (key.equals(mDownloadUrl)) {
-            com.yaoxiaowen.download.FileInfo fileInfo =
-                    (FileInfo) intent.getSerializableExtra(
-                            DownloadConstant.EXTRA_INTENT_DOWNLOAD);
-
-            switch (fileInfo.getDownloadStatus()) {
-                case DownloadStatus.COMPLETE:
-                    mBtnDownload.setText("已下载");
-                    DownloadUtil.getInstance().setState(Download.State.FINISHED,mDownloadUrl);
-                    break;
-                case DownloadStatus.LOADING:
-                    float pro = (float) (fileInfo.getDownloadLocation() * 1.0 / fileInfo.getSize());
-                    int progress = (int) (pro * 100);
-                    mBtnDownload.setText(progress + "%");
-                    break;
-                case DownloadStatus.PAUSE:
-                    mBtnDownload.setText("暂停");
-                    break;
-                case DownloadStatus.FAIL:
-                    mBtnDownload.setText("下载失败");
-                    break;
-            }
-        }
-    }
 
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(receiver);
+        unbindService(mConnection);
     }
 }

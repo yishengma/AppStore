@@ -24,6 +24,12 @@ public class CategoryFragment extends BaseFragment {
 
     private CategoryAdapter mAdapter;
 
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if (isVisible){
+
+        }
+    }
 
     @Override
     protected int setLayoutResId() {

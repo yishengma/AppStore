@@ -165,7 +165,7 @@ public class MainAppsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void startBanner(ArrayList<BannerBean> beans, ArrayList<String> titles) {
         mBanners.addAll(beans);
         mTitles.addAll(titles);
-        Log.e(TAG, "startBanner: " );
+
         notifyDataSetChanged();
     }
 

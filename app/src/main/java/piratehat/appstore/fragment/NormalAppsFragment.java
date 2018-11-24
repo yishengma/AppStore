@@ -35,6 +35,13 @@ public class NormalAppsFragment extends BaseFragment {
     private CommonAppsAdapter mAdapter;
 
     @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if (isVisible){
+
+        }
+    }
+
+    @Override
     protected int setLayoutResId() {
         return R.layout.fragment_normal;
     }

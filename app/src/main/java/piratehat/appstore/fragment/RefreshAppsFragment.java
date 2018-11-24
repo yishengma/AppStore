@@ -42,7 +42,12 @@ public class RefreshAppsFragment extends BaseFragment implements IAppsContract.I
     private int mCategoryId;
     private static final String TAG = "RefreshAppsFragment";
 
-
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if (isVisible){
+            mPresenter.getCategory(mCategory);
+        }
+    }
 
     @Override
     protected int setLayoutResId() {
@@ -59,7 +64,7 @@ public class RefreshAppsFragment extends BaseFragment implements IAppsContract.I
         }else {
             mPresenter = new AppPresenter(this,mCategoryId);
         }
-        mPresenter.getCategory(mCategory);
+
     }
 
     @Override

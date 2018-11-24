@@ -50,6 +50,13 @@ public class GameFragment extends BaseFragment implements IGameContract.IView {
     private GamePresenter mPresenter;
 
     @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if (isVisible){
+            mPresenter.getAppsList();
+        }
+    }
+
+    @Override
     protected int setLayoutResId() {
         return R.layout.fragment_game;
     }
@@ -59,7 +66,7 @@ public class GameFragment extends BaseFragment implements IGameContract.IView {
         mAppBeans = new ArrayList<>();
         mAdapter = new GameMainAdapter(mAppBeans, mActivity);
         mPresenter = new GamePresenter(this);
-        mPresenter.getAppsList();
+
 
     }
 

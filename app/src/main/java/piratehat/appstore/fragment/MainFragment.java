@@ -59,6 +59,13 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
 //    private Map<String, List<AppBean>> mBoutiqueMap;
 
     @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if (isVisible){
+
+        }
+    }
+
+    @Override
     protected int setLayoutResId() {
         return R.layout.fragment_main;
     }

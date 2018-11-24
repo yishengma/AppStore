@@ -32,7 +32,12 @@ public class RankFragment extends BaseFragment {
     private List<AppBean> mAppBeans;
     private RankAppsAdapter mAppsAdapter;
 
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if (isVisible){
 
+        }
+    }
     @Override
     protected int setLayoutResId() {
         return R.layout.fragment_rank;

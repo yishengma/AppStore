@@ -51,6 +51,12 @@ public class SoftwareFragment extends BaseFragment implements ISoftwareContract.
     private MVCHelper<List<AppBean>> mMVCHelper;
     private SoftwarePresenter mPresenter;
 
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if (isVisible){
+            mPresenter.getAppsList();
+        }
+    }
 
     @Override
     protected int setLayoutResId() {
@@ -61,7 +67,7 @@ public class SoftwareFragment extends BaseFragment implements ISoftwareContract.
     protected void initData(Bundle bundle) {
         mAppBeans = new ArrayList<>();
         mPresenter = new SoftwarePresenter(this);
-        mPresenter.getAppsList();
+
     }
 
     @Override
