@@ -1,18 +1,21 @@
 package piratehat.appstore.module;
 
-import android.content.Context;
-import android.util.Log;
 
-import java.util.ArrayList;
+
+
+
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 
 import okhttp3.Call;
 
+
+
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
 import piratehat.appstore.contract.IAppDetailsContract;
+
 
 import piratehat.appstore.utils.JsoupUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
@@ -27,6 +30,7 @@ public class AppDetailModel implements IAppDetailsContract.IModel {
 
     @Override
     public void getAppDetailInfo(final IAppDetailsContract.IPresenter presenter, String apkName) {
+
 
 
         Map<String, String> map = new HashMap<>();

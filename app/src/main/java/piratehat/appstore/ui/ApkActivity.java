@@ -5,7 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,7 +13,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.ApkAdapter;
 import piratehat.appstore.app.App;

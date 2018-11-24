@@ -3,10 +3,10 @@ package piratehat.appstore.presenter;
 import com.shizhefei.mvc.IAsyncDataSource;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 import piratehat.appstore.Bean.AppBean;
-import piratehat.appstore.contract.IGameContract;
+
 import piratehat.appstore.contract.ISoftwareContract;
 import piratehat.appstore.module.SoftwareModel;
 

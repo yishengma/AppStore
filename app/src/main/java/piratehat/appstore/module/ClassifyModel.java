@@ -15,7 +15,7 @@ import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
 import piratehat.appstore.contract.IAppsContract;
-import piratehat.appstore.diskCache.DiskCacheManager;
+
 import piratehat.appstore.dto.AppsDataDto;
 import piratehat.appstore.utils.GsonUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
@@ -96,7 +96,7 @@ public class ClassifyModel implements IAppsContract.IModel {
 
             @Override
             public void onResponse(String msg) {
-                Log.e(TAG, "onResponse: " +msg );
+
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
                 mHasMore = beans.size() != 0;
                 sender.sendData(beans);

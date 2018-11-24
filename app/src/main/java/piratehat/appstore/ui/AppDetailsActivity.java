@@ -3,11 +3,11 @@ package piratehat.appstore.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,10 +31,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 
-import java.io.File;
-import java.io.IOException;
+
+
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,7 +43,7 @@ import piratehat.appstore.R;
 import piratehat.appstore.adapter.ImageAdapter;
 
 
-import piratehat.appstore.config.Download;
+
 import piratehat.appstore.contract.IAppDetailsContract;
 import piratehat.appstore.download.DownloadListener;
 import piratehat.appstore.download.DownloadService;

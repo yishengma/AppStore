@@ -8,7 +8,7 @@ import java.util.Map;
  *
  * Created by PirateHat on 2018/11/1.
  */
-
+@Deprecated
 public class SerializableMap implements Serializable {
     private Map mMap;
 

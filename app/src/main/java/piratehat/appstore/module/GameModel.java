@@ -7,7 +7,7 @@ import com.shizhefei.mvc.ResponseSender;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 
 import okhttp3.Call;
@@ -15,9 +15,9 @@ import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
 import piratehat.appstore.contract.IGameContract;
-import piratehat.appstore.contract.ISoftwareContract;
+
 import piratehat.appstore.dto.AppsDataDto;
-import piratehat.appstore.dto.CategoryAppsDto;
+
 
 import piratehat.appstore.utils.GsonUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;

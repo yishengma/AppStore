@@ -1,10 +1,12 @@
 package piratehat.appstore.Bean;
 
+import java.io.Serializable;
+
 /**
  * Created by PirateHat on 2018/10/27.
  */
 
-public class BannerBean {
+public class BannerBean implements Serializable {
 
     private String mImageUrl;
     private String mDetailUrl;

@@ -3,7 +3,7 @@ package piratehat.appstore.presenter;
 import java.util.Map;
 
 import piratehat.appstore.contract.IRankContract;
-import piratehat.appstore.module.RanlModel;
+import piratehat.appstore.module.RankModel;
 
 /**
  * Created by PirateHat on 2018/11/23.
@@ -16,12 +16,12 @@ public class RankPresenter implements IRankContract.IPresenter {
 
     public RankPresenter(IRankContract.IView IView) {
         mIView = IView;
-        mIModel = new RanlModel();
+        mIModel = new RankModel();
     }
 
     @Override
-    public void showError() {
-
+    public void showError(String msg) {
+        mIView.showError(msg);
     }
 
     @Override

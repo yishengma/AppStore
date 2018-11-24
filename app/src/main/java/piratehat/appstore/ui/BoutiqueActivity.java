@@ -8,7 +8,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+
+import android.widget.Toast;
 
 import com.githang.statusbar.StatusBarCompat;
 
@@ -19,12 +20,12 @@ import java.util.Map;
 import butterknife.BindView;
 
 
-import piratehat.appstore.Bean.SerializableMap;
+
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.ViewPagerAdapter;
 
 import piratehat.appstore.contract.IBoutiqueContract;
-import piratehat.appstore.contract.IRankContract;
+
 import piratehat.appstore.fragment.NormalAppsFragment;
 import piratehat.appstore.presenter.BoutiquePresenter;
 
@@ -78,8 +79,8 @@ public class BoutiqueActivity extends BaseActivity implements IBoutiqueContract.
     }
 
     @Override
-    public void showError() {
-
+    public void showError(String msg) {
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
     @Override

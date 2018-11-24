@@ -1,12 +1,10 @@
 package piratehat.appstore.Bean;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.v7.util.DiffUtil;
+
 
 import java.io.Serializable;
 
-import piratehat.appstore.app.App;
+
 
 /**
  *

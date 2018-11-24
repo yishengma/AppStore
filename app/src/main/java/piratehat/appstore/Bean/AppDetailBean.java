@@ -1,5 +1,6 @@
 package piratehat.appstore.Bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * Created by PirateHat on 2018/11/20.
  */
 
-public class AppDetailBean {
+public class AppDetailBean implements Serializable{
 
     private String mIcon;
     private String mName;

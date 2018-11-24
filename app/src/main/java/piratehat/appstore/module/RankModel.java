@@ -1,42 +1,24 @@
 package piratehat.appstore.module;
 
-
-
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
-import piratehat.appstore.Bean.BannerBean;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
-import piratehat.appstore.contract.IMainContract;
-
-
-import piratehat.appstore.utils.CacheUtil;
-
+import piratehat.appstore.contract.IRankContract;
 import piratehat.appstore.utils.JsoupUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
 
 /**
- *
- * Created by PirateHat on 2018/10/27.
+ * Created by PirateHat on 2018/11/23.
  */
 
-public class MainModule implements IMainContract.IModel {
-    private static final String TAG = "MainModule";
+public class RankModel implements IRankContract.IModel {
 
     @Override
-    public void getMainPage(final IMainContract.IPresenter presenter) {
-        List list ;
-        if ((list = CacheUtil.getInstance().get(Url.MAIN_PAGE))!=null){
-            presenter.setBanner((ArrayList<BannerBean>) list);
-            return ;
-        }
-
+    public void getRankMap(final IRankContract.IPresenter presenter) {
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
         OkHttpUtil.getInstance().getAsync(Url.MAIN_PAGE, new OkHttpResultCallback() {
@@ -48,17 +30,12 @@ public class MainModule implements IMainContract.IModel {
             @Override
             public void onResponse(String msg) {
 
-               presenter.setBanner((ArrayList<BannerBean>) JsoupUtil.getInstance().getBanner(msg));
-                CacheUtil.getInstance().put(Url.MAIN_PAGE,JsoupUtil.getInstance().getBanner(msg));
-//               presenter.setRankApps((JsoupUtil.getInstance().getRankApps(msg)));
+//                presenter.setBanner((ArrayList<BannerBean>) JsoupUtil.getInstance().getBanner(msg));
+                presenter.setRankMap((JsoupUtil.getInstance().getRankApps(msg)));
 //               presenter.setBoutiqueApps(JsoupUtil.getInstance().getBoutiqueApps(msg));
 //                DiskCacheManager.getDiskInstance().put(Url.MAIN_PAGE,msg);
 
             }
-
-        }, map);
+        });
     }
-
-
-
 }

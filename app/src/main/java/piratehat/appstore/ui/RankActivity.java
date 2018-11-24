@@ -8,21 +8,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.githang.statusbar.StatusBarCompat;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import piratehat.appstore.Bean.AppBean;
-import piratehat.appstore.Bean.SerializableMap;
+
+
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.ViewPagerAdapter;
 import piratehat.appstore.contract.IRankContract;
@@ -106,8 +107,8 @@ public class RankActivity extends AppCompatActivity implements IRankContract.IVi
     }
 
     @Override
-    public void showError() {
-
+    public void showError(String msg) {
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
     @Override

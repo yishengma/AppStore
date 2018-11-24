@@ -1,7 +1,7 @@
 package piratehat.appstore.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
 import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;

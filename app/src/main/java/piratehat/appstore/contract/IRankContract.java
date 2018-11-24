@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface IRankContract {
     interface IView{
-        void showError();
+        void showError(String msg);
          void setRankMap(Map map);
     }
 
@@ -18,7 +18,7 @@ public interface IRankContract {
 
 
     interface IPresenter{
-        void showError();
+        void showError(String msg);
         void setRankMap(Map map);
         void getRankMap();
     }

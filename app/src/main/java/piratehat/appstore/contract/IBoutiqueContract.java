@@ -11,7 +11,7 @@ import java.util.Map;
 public interface IBoutiqueContract  {
 
     interface IView{
-        void showError();
+        void showError(String msg);
         void setBoutiqueMap(Map map);
     }
 
@@ -20,7 +20,7 @@ public interface IBoutiqueContract  {
     }
 
     interface IPresenter{
-        void showError();
+        void showError(String msg);
         void setBoutiqueMap(Map map);
         void getBoutiqueMap();
     }

@@ -7,16 +7,16 @@ import com.shizhefei.mvc.ResponseSender;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 
 import okhttp3.Call;
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
-import piratehat.appstore.contract.IGameContract;
+
 import piratehat.appstore.contract.ISoftwareContract;
-import piratehat.appstore.diskCache.DiskCacheManager;
+
 import piratehat.appstore.dto.AppsDataDto;
 import piratehat.appstore.utils.GsonUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
@@ -49,9 +49,17 @@ public class SoftwareModel implements ISoftwareContract.IModel {
 
             @Override
             public void onResponse(String msg) {
-                ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
-                mHasMore = beans.size() != 0;
-                presenter.setAppsList(beans);
+
+                ArrayList<AppBean> beans = new ArrayList<>();
+                try {
+                    beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
+
+                } catch (IllegalStateException e) {
+
+                } finally {
+                    mHasMore = beans.size() != 0;
+                    presenter.setAppsList(beans);
+                }
             }
         }, map);
     }

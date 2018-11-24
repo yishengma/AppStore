@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.shizhefei.mvc.IDataAdapter;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import piratehat.appstore.Bean.AppBean;
+
 import piratehat.appstore.R;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.fragment.CategoryFragment;

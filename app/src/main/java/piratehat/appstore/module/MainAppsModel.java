@@ -1,7 +1,7 @@
 package piratehat.appstore.module;
 
 
-import android.util.Log;
+
 
 import com.shizhefei.mvc.IAsyncDataSource;
 import com.shizhefei.mvc.RequestHandle;
@@ -14,14 +14,15 @@ import java.util.Map;
 
 import okhttp3.Call;
 import piratehat.appstore.Bean.AppBean;
-import piratehat.appstore.Bean.BannerBean;
+
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
 
 import piratehat.appstore.dto.AppsDataDto;
 import piratehat.appstore.presenter.MainPresenter;
+import piratehat.appstore.utils.CacheUtil;
 import piratehat.appstore.utils.GsonUtil;
-import piratehat.appstore.utils.JsoupUtil;
+
 import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
 
@@ -49,7 +50,6 @@ public class MainAppsModel implements IAsyncDataSource<List<AppBean>> {
     @Override
     public RequestHandle loadMore(ResponseSender<List<AppBean>> sender) {
         mPageContext += 20;
-        Log.e(TAG, "loadMore: " );
         return loadApps(sender, mPageContext);
     }
 
@@ -58,7 +58,14 @@ public class MainAppsModel implements IAsyncDataSource<List<AppBean>> {
         return mHasMore;
     }
 
-    private RequestHandle loadApps(final ResponseSender<List<AppBean>> sender, int pageContext) {
+    private RequestHandle loadApps(final ResponseSender<List<AppBean>> sender, final int pageContext) {
+        List list ;
+        if ((list = CacheUtil.getInstance().get(Url.LOAD_MORE + pageContext))!=null){
+            mHasMore = list.size() != 0;
+            sender.sendData(list);
+            return new OkHttpRequestHandle();
+        }
+
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
         OkHttpUtil.getInstance().getAsync(Url.LOAD_MORE + pageContext, new OkHttpResultCallback() {
@@ -73,13 +80,12 @@ public class MainAppsModel implements IAsyncDataSource<List<AppBean>> {
                 ArrayList<AppBean> beans = new ArrayList<>();
                 try {
                     beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
-
-
                 } catch (IllegalStateException e) {
 
                 } finally {
                     mHasMore = beans.size() != 0;
                     sender.sendData(beans);
+                    CacheUtil.getInstance().put(Url.LOAD_MORE + pageContext,beans);
                 }
             }
         }, map);

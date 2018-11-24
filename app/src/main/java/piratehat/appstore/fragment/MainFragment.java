@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.Bean.BannerBean;
-import piratehat.appstore.Bean.SerializableMap;
+
 import piratehat.appstore.R;
 import piratehat.appstore.adapter.MainAppsAdapter;
 import piratehat.appstore.app.App;
@@ -57,11 +57,13 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
     private MVCHelper<List<AppBean>> mMVCHelper;
 //    private Map<String, List<AppBean>> mRankMap;
 //    private Map<String, List<AppBean>> mBoutiqueMap;
-
+private static final String TAG = "MainFragment";
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
-        if (isVisible){
 
+        if (isVisible){
+            mPresenter.getMainPage();
+            mMVCHelper.refresh();
         }
     }
 
@@ -81,8 +83,7 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
         mMVCHelper.setAdapter(mAppsAdapter);
 //        mRankMap = new HashMap<>();
 //        mBoutiqueMap = new HashMap<>();
-        mPresenter.getMainPage();
-        mMVCHelper.refresh();
+
 
 
     }
@@ -111,7 +112,6 @@ public class MainFragment extends BaseFragment implements IMainContract.IView {
                         TencentActivity.actionStart(mActivity, TencentActivity.class);
                         break;
                     case R.id.tab_boutique:
-
 
                         BoutiqueActivity.actionStart(mActivity, BoutiqueActivity.class);
                         break;

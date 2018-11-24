@@ -1,17 +1,17 @@
 package piratehat.appstore.presenter;
 
-import android.content.Context;
 
 
 
-import java.io.File;
+
+
 
 import piratehat.appstore.Bean.AppDetailBean;
-import piratehat.appstore.app.App;
-import piratehat.appstore.config.Download;
+
+
 import piratehat.appstore.contract.IAppDetailsContract;
 import piratehat.appstore.module.AppDetailModel;
-import piratehat.appstore.ui.DownloadUtil;
+
 
 /**
  * Created by PirateHat on 2018/11/20.

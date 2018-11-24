@@ -1,8 +1,6 @@
 package piratehat.appstore.module;
 
-import android.util.Log;
 
-import com.shizhefei.mvc.IAsyncDataSource;
 import com.shizhefei.mvc.RequestHandle;
 import com.shizhefei.mvc.ResponseSender;
 
@@ -16,11 +14,11 @@ import piratehat.appstore.Bean.AppBean;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
 import piratehat.appstore.contract.IAppsContract;
-import piratehat.appstore.diskCache.DiskCacheManager;
-import piratehat.appstore.dto.AppsDataDto;
+
+
 import piratehat.appstore.dto.CategoryAppsDto;
 import piratehat.appstore.utils.GsonUtil;
-import piratehat.appstore.utils.JsoupUtil;
+
 import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
 

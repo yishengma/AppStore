@@ -19,9 +19,11 @@ public class BoutiquePresenter implements IBoutiqueContract.IPresenter {
         mIModel = new BoutiqueModel();
     }
 
+
+
     @Override
-    public void showError() {
-        mIView.showError();
+    public void showError(String msg) {
+        mIView.showError(msg);
     }
 
     @Override

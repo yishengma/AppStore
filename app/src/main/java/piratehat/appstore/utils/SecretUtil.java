@@ -1,4 +1,4 @@
-package piratehat.appstore.diskCache;
+package piratehat.appstore.utils;
 
 import android.provider.SyncStateContract;
 

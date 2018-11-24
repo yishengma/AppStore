@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +34,15 @@ public abstract class BaseFragment extends Fragment {
             return;
         }
         hasCreateView = true;
-        if (isVisibleToUser) {
+        if (isVisibleToUser){
+            onFragmentVisibleChange(true);
+            isFragmentVisible = true;
+            return;
+
+        }
+        if (isFragmentVisible) {
+            onFragmentVisibleChange(false);
+            isFragmentVisible = false;
 
         }
     }
@@ -54,14 +62,10 @@ public abstract class BaseFragment extends Fragment {
         if (!hasCreateView && getUserVisibleHint()) {
             onFragmentVisibleChange(true);
             isFragmentVisible = true;
-            return;
-        }
-
-    if (isFragmentVisible) {
-        onFragmentVisibleChange(false);
-        isFragmentVisible = false;
 
         }
+
+
     }
 
     @Override
