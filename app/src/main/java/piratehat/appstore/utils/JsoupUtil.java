@@ -67,6 +67,7 @@ public class JsoupUtil {
             bannerBean.setName(h.text());
             bannerBeans.add(bannerBean);
         }
+
         return bannerBeans;
     }
 

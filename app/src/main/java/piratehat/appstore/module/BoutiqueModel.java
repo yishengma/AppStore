@@ -34,11 +34,8 @@ public class BoutiqueModel implements IBoutiqueContract.IModel {
 
             @Override
             public void onResponse(String msg) {
+                presenter.setBoutiqueMap((JsoupUtil.getInstance().getBoutiqueApps(msg)));
 
-//                presenter.setBanner((ArrayList<BannerBean>) JsoupUtil.getInstance().getBanner(msg));
-                presenter.setBoutiqueMap((JsoupUtil.getInstance().getRankApps(msg)));
-//               presenter.setBoutiqueApps(JsoupUtil.getInstance().getBoutiqueApps(msg));
-//                DiskCacheManager.getDiskInstance().put(Url.MAIN_PAGE,msg);
 
             }
         });

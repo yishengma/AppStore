@@ -30,10 +30,8 @@ public class RankModel implements IRankContract.IModel {
             @Override
             public void onResponse(String msg) {
 
-//                presenter.setBanner((ArrayList<BannerBean>) JsoupUtil.getInstance().getBanner(msg));
                 presenter.setRankMap((JsoupUtil.getInstance().getRankApps(msg)));
-//               presenter.setBoutiqueApps(JsoupUtil.getInstance().getBoutiqueApps(msg));
-//                DiskCacheManager.getDiskInstance().put(Url.MAIN_PAGE,msg);
+
 
             }
         });

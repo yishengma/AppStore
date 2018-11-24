@@ -16,6 +16,7 @@ import piratehat.appstore.contract.ITencentContract;
 
 import piratehat.appstore.dto.AppsDataDto;
 
+import piratehat.appstore.utils.CacheUtil;
 import piratehat.appstore.utils.GsonUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
@@ -32,7 +33,11 @@ public class TencentModel implements ITencentContract.IModel {
 
     @Override
     public void getAppsList(final ITencentContract.IPresenter presenter) {
-
+        List list ;
+        if ((list = CacheUtil.getInstance().get(Url.TENCENT_PAGE))!=null){
+            presenter.setAppsList((ArrayList<AppBean>) list);
+            return ;
+        }
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
         OkHttpUtil.getInstance().getAsync(Url.TENCENT_PAGE, new OkHttpResultCallback() {
@@ -45,7 +50,7 @@ public class TencentModel implements ITencentContract.IModel {
             public void onResponse(String msg) {
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
                 presenter.setAppsList(beans);
-//                DiskCacheManager.getDiskInstance().put(Url.SOFTWARE_ALL,beans);
+                CacheUtil.getInstance().put(Url.TENCENT_PAGE,beans);
 
             }
         }, map);
@@ -67,6 +72,13 @@ public class TencentModel implements ITencentContract.IModel {
     }
 
     private RequestHandle loadApps(final ResponseSender<ArrayList<AppBean>> sender) {
+
+        List list ;
+        if ((list = CacheUtil.getInstance().get(Url.TENCENT_PAGE))!=null){
+            sender.sendData((ArrayList<AppBean>) list);
+
+            return new OkHttpRequestHandle();
+        }
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
         mPageContext += 20;
@@ -81,7 +93,7 @@ public class TencentModel implements ITencentContract.IModel {
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
                 mHasMore = beans.size() != 0;
                 sender.sendData(beans);
-
+                CacheUtil.getInstance().put(Url.TENCENT_PAGE+mPageContext,beans);
             }
         }, map);
 

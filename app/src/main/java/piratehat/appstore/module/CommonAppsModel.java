@@ -17,6 +17,7 @@ import piratehat.appstore.contract.IAppsContract;
 
 
 import piratehat.appstore.dto.CategoryAppsDto;
+import piratehat.appstore.utils.CacheUtil;
 import piratehat.appstore.utils.GsonUtil;
 
 import piratehat.appstore.utils.OkHttpResultCallback;
@@ -58,11 +59,12 @@ public class CommonAppsModel implements IAppsContract.IModel {
 
     @Override
     public void getCategory(final IAppsContract.IPresenter presenter, String category) {
-//         List list;
-//        if ((list=DiskCacheManager.getDiskInstance().getList(Url.CATEGORY + mCategory+Url.MORE_MODE[0],AppBean.class))!=null&&list.size()!=0){
-//            presenter.setResult((ArrayList<AppBean>) list);
-//            return;
-//        }
+
+        List list ;
+        if ((list = CacheUtil.getInstance().get(Url.CATEGORY + mCategory+Url.MORE_MODE[0]))!=null){
+            presenter.setResult((ArrayList<AppBean>) list);
+            return ;
+        }
 
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
@@ -76,12 +78,20 @@ public class CommonAppsModel implements IAppsContract.IModel {
             public void onResponse(String msg) {
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, CategoryAppsDto.class).transform();
                 presenter.setResult(beans);
-//                DiskCacheManager.getDiskInstance().put(Url.CATEGORY + mCategory+Url.MORE_MODE[0],beans);
+                CacheUtil.getInstance().put(Url.CATEGORY + mCategory+Url.MORE_MODE[0],beans);
             }
         }, map);
     }
 
-    private RequestHandle loadApps(final ResponseSender<List<AppBean>> sender, String mode) {
+    private RequestHandle loadApps(final ResponseSender<List<AppBean>> sender, final String mode) {
+
+        List list ;
+        if ((list = CacheUtil.getInstance().get(Url.CATEGORY + mCategory+Url.MORE_MODE[0]))!=null){
+            sender.sendData(list);
+            return new OkHttpRequestHandle();
+
+        }
+
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
         OkHttpUtil.getInstance().getAsync(Url.CATEGORY + mCategory + mode, new OkHttpResultCallback() {
@@ -95,6 +105,7 @@ public class CommonAppsModel implements IAppsContract.IModel {
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, CategoryAppsDto.class).transform();
                 mHasMore = beans.size() != 0;
                 sender.sendData(beans);
+                CacheUtil.getInstance().put(Url.CATEGORY + mCategory + mode,beans);
 
             }
         }, map);

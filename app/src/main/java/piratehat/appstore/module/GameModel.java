@@ -8,6 +8,7 @@ import com.shizhefei.mvc.ResponseSender;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -19,6 +20,7 @@ import piratehat.appstore.contract.IGameContract;
 import piratehat.appstore.dto.AppsDataDto;
 
 
+import piratehat.appstore.utils.CacheUtil;
 import piratehat.appstore.utils.GsonUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
@@ -35,6 +37,13 @@ public class GameModel implements IGameContract.IModel {
 
     @Override
     public void getAllApps(final IGameContract.IPresenter presenter) {
+
+        List list ;
+        if ((list = CacheUtil.getInstance().get(Url.GAME_ALL + mPageContext))!=null){
+            presenter.setAppsList((ArrayList<AppBean>) list);
+            return ;
+        }
+
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
         OkHttpUtil.getInstance().getAsync(Url.GAME_ALL + mPageContext, new OkHttpResultCallback() {
@@ -46,7 +55,6 @@ public class GameModel implements IGameContract.IModel {
 
             @Override
             public void onResponse(String msg) {
-                Log.e(TAG, "onResponse: "+msg );
                 ArrayList<AppBean> beans = new ArrayList<>();
                 try {
                     beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
@@ -56,6 +64,7 @@ public class GameModel implements IGameContract.IModel {
                 } finally {
                     mHasMore = beans.size() != 0;
                     presenter.setAppsList(beans);
+                    CacheUtil.getInstance().put(Url.GAME_ALL + mPageContext,beans);
                 }
             }
         }, map);
@@ -79,7 +88,14 @@ public class GameModel implements IGameContract.IModel {
         return mHasMore;
     }
 
-    private RequestHandle loadApps(final ResponseSender<ArrayList<AppBean>> sender, int pageContext) {
+    private RequestHandle loadApps(final ResponseSender<ArrayList<AppBean>> sender, final int pageContext) {
+        List list ;
+        if ((list = CacheUtil.getInstance().get(Url.GAME_ALL + mPageContext))!=null){
+            sender.sendData((ArrayList<AppBean>) list);
+            return new OkHttpRequestHandle();
+        }
+
+
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
         OkHttpUtil.getInstance().getAsync(Url.GAME_ALL + pageContext, new OkHttpResultCallback() {
@@ -94,6 +110,7 @@ public class GameModel implements IGameContract.IModel {
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
                 mHasMore = beans.size() != 0;
                 sender.sendData(beans);
+                CacheUtil.getInstance().put(Url.GAME_ALL + pageContext,beans);
             }
         }, map);
         return new OkHttpRequestHandle();

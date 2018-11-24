@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.githang.statusbar.StatusBarCompat;
 import com.shizhefei.mvc.IAsyncDataSource;
@@ -54,12 +55,8 @@ public class TencentActivity extends BaseActivity implements ITencentContract.IV
         actionBar.setDisplayShowTitleEnabled(false);
         mToolBar.setTitle("腾讯");
 
-        mAdapter = new CommonAppsAdapter(this, mAppBeans);
-        mRvApps.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRvApps.setAdapter(mAdapter);
-        mMVCHelper = new MVCCoolHelper<>(mCrvApps);
-        mMVCHelper.setDataSource((IAsyncDataSource<List<AppBean>>) mPresenter.loadMore());
-        mMVCHelper.setAdapter(mAdapter);
+
+
 
     }
 
@@ -67,6 +64,14 @@ public class TencentActivity extends BaseActivity implements ITencentContract.IV
     protected void initData(Bundle bundle) {
         mAppBeans = new ArrayList<>();
         mPresenter = new TencentPresenter(this);
+        mAdapter = new CommonAppsAdapter(this, mAppBeans);
+        mRvApps.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRvApps.setAdapter(mAdapter);
+        mMVCHelper = new MVCCoolHelper<>(mCrvApps);
+        mMVCHelper.setDataSource((IAsyncDataSource<List<AppBean>>) mPresenter.loadMore());
+        mMVCHelper.setAdapter(mAdapter);
+
+
         mPresenter.getAppsList();
     }
 
@@ -77,8 +82,10 @@ public class TencentActivity extends BaseActivity implements ITencentContract.IV
 
     @Override
     public void setAppsList(ArrayList<AppBean> beans) {
-        mAppBeans.addAll(beans);
-        mAdapter.notifyDataSetChanged();
+        if (beans!=null){
+            mAppBeans.addAll(beans);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
 

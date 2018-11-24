@@ -12,11 +12,13 @@ import java.util.Map;
 
 import okhttp3.Call;
 import piratehat.appstore.Bean.AppBean;
+
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
 import piratehat.appstore.contract.IAppsContract;
 
 import piratehat.appstore.dto.AppsDataDto;
+import piratehat.appstore.utils.CacheUtil;
 import piratehat.appstore.utils.GsonUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
@@ -35,7 +37,7 @@ public class ClassifyModel implements IAppsContract.IModel {
 
     public ClassifyModel(int ID) {
         mID = ID;
-        Log.e(TAG, "ClassifyModel: "+mID );
+
     }
 
     @Override
@@ -57,11 +59,13 @@ public class ClassifyModel implements IAppsContract.IModel {
     @Override
     public void getCategory(final IAppsContract.IPresenter presenter, String category) {
 
-//        final List list;
-//        if ((list=DiskCacheManager.getDiskInstance().getList(Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT,AppBean.class))!=null&&list.size()!=0){
-//            presenter.setResult((ArrayList<AppBean>) list);
-//            return;
-//        }
+        List list ;
+        if ((list = CacheUtil.getInstance().get(Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT + mPageContext))!=null){
+            presenter.setResult((ArrayList<AppBean>) list);
+            return ;
+        }
+
+
 
         final Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
@@ -78,14 +82,19 @@ public class ClassifyModel implements IAppsContract.IModel {
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
                 mHasMore = beans.size() != 0;
                 presenter.setResult(beans);
-//                DiskCacheManager.getDiskInstance().put(Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT,beans);
-
+                CacheUtil.getInstance().put(Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT + mPageContext,beans);
 
             }
         }, map);
     }
 
     private RequestHandle loadApps(final ResponseSender<List<AppBean>> sender) {
+
+        List list ;
+        if ((list = CacheUtil.getInstance().get(Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT + mPageContext))!=null){
+            sender.sendData(list);
+            return new OkHttpRequestHandle();
+        }
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
         OkHttpUtil.getInstance().getAsync(Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT + mPageContext, new OkHttpResultCallback() {
@@ -100,6 +109,8 @@ public class ClassifyModel implements IAppsContract.IModel {
                 ArrayList<AppBean> beans = (ArrayList<AppBean>) GsonUtil.gsonToBean(msg, AppsDataDto.class).transform();
                 mHasMore = beans.size() != 0;
                 sender.sendData(beans);
+                CacheUtil.getInstance().put(Url.CLASSIFY_ROOT + mID + Url.CLASSIFY_CONTEXT + mPageContext,beans);
+
 
             }
         }, map);

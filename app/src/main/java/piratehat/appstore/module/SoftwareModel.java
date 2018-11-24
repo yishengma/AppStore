@@ -8,16 +8,19 @@ import com.shizhefei.mvc.ResponseSender;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
 import piratehat.appstore.Bean.AppBean;
+import piratehat.appstore.Bean.BannerBean;
 import piratehat.appstore.config.Constant;
 import piratehat.appstore.config.Url;
 
 import piratehat.appstore.contract.ISoftwareContract;
 
 import piratehat.appstore.dto.AppsDataDto;
+import piratehat.appstore.utils.CacheUtil;
 import piratehat.appstore.utils.GsonUtil;
 import piratehat.appstore.utils.OkHttpResultCallback;
 import piratehat.appstore.utils.OkHttpUtil;
@@ -33,11 +36,12 @@ public class SoftwareModel implements ISoftwareContract.IModel {
 
     @Override
     public void getAllApps(final ISoftwareContract.IPresenter presenter) {
-//         List list;
-//        if ((list= DiskCacheManager.getDiskInstance().getList(Url.SOFTWARE_ALL,AppBean.class))!=null&&list.size()!=0){
-//            presenter.setAppsList((ArrayList<AppBean>) list);
-//            return;
-//        }
+        List list ;
+        if ((list = CacheUtil.getInstance().get(Url.SOFTWARE_ALL + mPageContext))!=null){
+            presenter.setAppsList((ArrayList<AppBean>) list);
+            return ;
+        }
+
 
         Map<String, String> map = new HashMap<>();
         map.put(Constant.USER_AGENT, Constant.USER_AGENT_VALUE);
@@ -59,6 +63,7 @@ public class SoftwareModel implements ISoftwareContract.IModel {
                 } finally {
                     mHasMore = beans.size() != 0;
                     presenter.setAppsList(beans);
+                    CacheUtil.getInstance().put(Url.SOFTWARE_ALL + mPageContext,beans);
                 }
             }
         }, map);
