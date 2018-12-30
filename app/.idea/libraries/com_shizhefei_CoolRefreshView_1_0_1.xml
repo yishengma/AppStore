@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.shizhefei:CoolRefreshView-1.0.1">
+    <CLASSES>
+      <root url="jar://G:/.gradle/caches/transforms-1/files-1.1/CoolRefreshView-1.0.1.aar/2d3722c7792c0668a99a1e182c87680c/jars/classes.jar!/" />
+      <root url="file://G:/.gradle/caches/transforms-1/files-1.1/CoolRefreshView-1.0.1.aar/2d3722c7792c0668a99a1e182c87680c/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://G:/.gradle/caches/modules-2/files-2.1/com.shizhefei/CoolRefreshView/1.0.1/100158fb9651a3cd5e08785fe433aa2e6d7e300d/CoolRefreshView-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

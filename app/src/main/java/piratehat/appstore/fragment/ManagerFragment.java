@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,6 @@ public class ManagerFragment extends BaseFragment {
     TextView mTvCache;
     @BindView(R.id.tv_files)
     TextView mTvFiles;
-    private static final String TAG = "ManagerFragment";
     @BindView(R.id.btn_download)
     Button mBtnDownload;
     @BindView(R.id.btn_apk)
@@ -61,6 +61,13 @@ public class ManagerFragment extends BaseFragment {
     private boolean mHasClear;
     private volatile boolean mWait;
 
+    private static final String TAG = "ManagerFragment";
+
+    // 不同的线程，onGetStatsCompleted 是在 Binder 线程池里运行的
+//12-30 16:14:05.050 23717-23717/piratehat.appstore E/ManagerFragment: initData: main
+//12-30 16:14:18.699 23717-24595/piratehat.appstore E/ManagerFragment: run: pool-5-thread-1
+ //12-30 16:14:19.558 23717-23738/piratehat.appstore E/ManagerFragment: onGetStatsCompleted: Binder:23717_2
+ //12-30 16:14:19.609 23717-23754/piratehat.appstore E/ManagerFragment: onGetStatsCompleted: Binder:23717_3
 
     @Override
     protected int setLayoutResId() {
@@ -69,6 +76,7 @@ public class ManagerFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle bundle) {
+              Log.e(TAG, "initData: "+Thread.currentThread().getName() );
         mPackageManager = mActivity.getPackageManager();
         mHandler = new CacheHandler(this);
         mSingleExecutor = Executors.newSingleThreadExecutor();
@@ -148,6 +156,7 @@ public class ManagerFragment extends BaseFragment {
     private class FetchThread extends Thread {
         @Override
         public void run() {
+            Log.e(TAG, "run: "+Thread.currentThread().getName() );
             List<PackageInfo> packageInfoList = mPackageManager.getInstalledPackages(0);
             for (PackageInfo packageInfo : packageInfoList) {
                 getCacheSize(packageInfo);
@@ -207,6 +216,8 @@ public class ManagerFragment extends BaseFragment {
                 default:
                     break;
             }
+
+
         }
     }
 
@@ -219,6 +230,7 @@ public class ManagerFragment extends BaseFragment {
 
         @Override
         public void onGetStatsCompleted(PackageStats pStats, boolean succeeded) throws RemoteException {
+            Log.e(TAG, "onGetStatsCompleted: "+Thread.currentThread().getName());
             ManagerFragment fragment = mReference.get();
             if (fragment == null) {
                 return;
