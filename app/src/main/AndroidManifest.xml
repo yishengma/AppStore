@@ -38,7 +38,8 @@
         <service android:name=".download.DownloadService" />
 
         <activity android:name=".ui.DownloadManagerActivity" />
-        <activity android:name=".ui.ApkActivity"></activity>
+        <activity android:name=".ui.ApkActivity" />
+        <activity android:name="piratehat.HttpClient.HttpTestActivity"></activity>
     </application>
 
 </manifest>

@@ -9,6 +9,9 @@ import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by PirateHat on 2018/10/27.
@@ -35,7 +38,12 @@ public class App extends Application {
 
         mContext = getApplicationContext();
 
-
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL("").openConnection();
+            connection.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static RefWatcher getmRerWatcher() {
