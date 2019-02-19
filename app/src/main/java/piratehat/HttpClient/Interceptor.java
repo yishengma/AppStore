@@ -15,6 +15,8 @@ public interface Interceptor {
 
         Response proceed(Request request);
 
+        HttpClient httpClient();
+
 
     }
 }

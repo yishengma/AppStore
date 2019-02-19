@@ -5,4 +5,16 @@ package piratehat.HttpClient;
  */
 
 public class Response {
+    private String mResultString;
+
+    public Response(String resultString) {
+        mResultString = resultString;
+    }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "mResultString='" + mResultString + '\'' +
+                '}';
+    }
 }

@@ -33,9 +33,9 @@ public class RealCall implements Call {
     public Response execute() throws IOException {
         mHttpClient.dispatcher.execute(this);
         Response response = getResponseWithInterceptorChain();
-//        if (response == null) {
-//            throw new IOException("Cancel!");
-//        }
+        if (response == null) {
+            throw new IOException("Cancel!");
+        }
         mHttpClient.dispatcher.finish(this);
         return response;
     }
@@ -61,8 +61,11 @@ public class RealCall implements Call {
         @Override
         public void execute() {
             Response response = getResponseWithInterceptorChain();
-            mCallback.onFailure(RealCall.this, new IOException("Cancel "));
-            mCallback.onResponse(RealCall.this, response);
+            if (mRequest.mCanceled){
+                mCallback.onFailure(RealCall.this,new IOException(""));
+            }else {
+                mCallback.onResponse(RealCall.this,response);
+            }
             mHttpClient.dispatcher.finish(this);
         }
     }
@@ -70,9 +73,10 @@ public class RealCall implements Call {
     private Response getResponseWithInterceptorChain() {
         List<Interceptor> interceptors = new ArrayList<>();
         interceptors.addAll(mHttpClient.interceptors);
-//        interceptors.add()
-        System.out.println(mRequest.url());
-        Interceptor.Chain chain = new RealInterceptorChain();
+        interceptors.add(new RetryInterceptor());
+        interceptors.add(new BridgeInterceptor());
+        interceptors.add(new ConnectInterceptor());
+        Interceptor.Chain chain = new RealInterceptorChain(mHttpClient,mRequest,interceptors,0);
         return chain.proceed(mRequest);
 
     }

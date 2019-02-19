@@ -22,7 +22,7 @@ public class HttpClient {
     final List<Interceptor> interceptors;//拦截器链
     List<Protocol> protocols;  //支持的协议
     SocketFactory socketFactory; //socket 工厂
-    @Nullable SocketFactory sslSocketFactory;
+    SocketFactory sslSocketFactory;
     boolean followRedirects; //重定向
     int connectTimeout;
     int writeTimeout;
@@ -50,6 +50,7 @@ public class HttpClient {
 
 
     }
+
 
     public Call newCall(Request request){
         return new RealCall(this,request);

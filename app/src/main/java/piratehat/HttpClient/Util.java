@@ -12,13 +12,12 @@ import java.util.List;
 import java.util.concurrent.ThreadFactory;
 
 /**
+ *
+ *
  * Created by PirateHat on 2019/2/18.
  */
 
 public class Util {
-
-
-
 
 
     public static void closeQuietly(Closeable closeable){

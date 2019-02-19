@@ -38,12 +38,7 @@ public class App extends Application {
 
         mContext = getApplicationContext();
 
-        try {
-            HttpURLConnection connection = (HttpURLConnection) new URL("").openConnection();
-            connection.connect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public static RefWatcher getmRerWatcher() {

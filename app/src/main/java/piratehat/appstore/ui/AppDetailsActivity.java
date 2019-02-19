@@ -260,6 +260,8 @@ public class AppDetailsActivity extends BaseActivity implements IAppDetailsContr
     @Override
     protected void onStop() {
         super.onStop();
-        unbindService(mConnection);
+        if (mConnection!=null){
+            unbindService(mConnection);
+        }
     }
 }
