@@ -61,8 +61,8 @@ public class RealCall implements Call {
         @Override
         public void execute() {
             Response response = getResponseWithInterceptorChain();
-            if (mRequest.mCanceled){
-                mCallback.onFailure(RealCall.this,new IOException(""));
+            if (response.isCanceled()){
+                mCallback.onFailure(RealCall.this,response.getException());
             }else {
                 mCallback.onResponse(RealCall.this,response);
             }

@@ -37,7 +37,7 @@
         <!--<service android:name="com.yaoxiaowen.download.service.DownloadService" />-->
         <service android:name=".download.DownloadService" />
 
-        <activity android:name=".ui.DownloadManagerActivity" />
+        <!--<activity android:name=".ui.DownloadManagerActivity" />-->
         <activity android:name=".ui.ApkActivity" />
         <activity android:name="piratehat.HttpClient.HttpTestActivity">
 

@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class DownloadService extends Service {
 
-    private DownloadTask mDownloadTask;
+    private DownloadTask1 mDownloadTask;
 
     private String mDownloadUrl;
 
@@ -59,7 +59,7 @@ public class DownloadService extends Service {
          */
         public void startDownload(String url,String name) {
                 mDownloadUrl = url;
-                mDownloadTask = new DownloadTask(mListenerMap.get(mDownloadUrl));
+                mDownloadTask = new DownloadTask1(mListenerMap.get(mDownloadUrl));
                 //启动下载任务
                 mDownloadTask.execute(mDownloadUrl,name+".apk");
                 Toast.makeText(DownloadService.this, "Downloading...", Toast.LENGTH_SHORT).show();

@@ -73,9 +73,9 @@ public class HttpClient {
             protocols = Util.immutableList(Protocol.HTTP, Protocol.HTTPS);
             socketFactory = SocketFactory.getDefault();
             followRedirects = false;
-            connectTimeout = 10_000;
-            writeTimeout = 10_000;
-            readTimeout = 10_000;
+            connectTimeout = 600_000;
+            writeTimeout = 600_000;
+            readTimeout = 600_000;
         }
 
         public Builder socketFactory(SocketFactory socketFactory) {

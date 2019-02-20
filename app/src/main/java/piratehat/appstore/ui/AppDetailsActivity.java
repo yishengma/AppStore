@@ -83,6 +83,7 @@ public class AppDetailsActivity extends BaseActivity implements IAppDetailsContr
     private DownloadService.DownloadBinder mDownloadBinder;
     private DownloadListener mListener;
     private int mState;
+    private boolean isBind = false;
 
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -126,8 +127,9 @@ public class AppDetailsActivity extends BaseActivity implements IAppDetailsContr
         mVpContent.setAdapter(mAdapter);
 
         Intent intent = new Intent(this, DownloadService.class);
-        startService(intent);  //启动服务
-        bindService(intent, mConnection, BIND_AUTO_CREATE);
+          //        startService(intent);
+        //启动服务
+        isBind  =bindService(intent, mConnection, BIND_AUTO_CREATE);
         mPresenter.getAppDetailInfo(apkName);
 
     }
@@ -260,7 +262,7 @@ public class AppDetailsActivity extends BaseActivity implements IAppDetailsContr
     @Override
     protected void onStop() {
         super.onStop();
-        if (mConnection!=null){
+        if (mConnection!=null&&isBind){
             unbindService(mConnection);
         }
     }

@@ -2,14 +2,20 @@ package piratehat.HttpClient;
 
 import android.support.annotation.NonNull;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
+import java.util.zip.GZIPInputStream;
 
 /**
  *
@@ -62,5 +68,36 @@ public class Util {
 
             }
         };
+    }
+
+    public static byte[] uncompressToByte(InputStream in) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            GZIPInputStream ungzip = new GZIPInputStream(in);
+            byte[] buffer = new byte[256];
+            int n;
+            while ((n = ungzip.read(buffer)) >= 0) {
+                out.write(buffer, 0, n);
+            }
+            return out.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static byte[] streamToByte(InputStream in) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            byte[] buffer = new byte[256];
+            int n;
+            while ((n = in.read(buffer)) >= 0) {
+                out.write(buffer, 0, n);
+            }
+            return out.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 }
