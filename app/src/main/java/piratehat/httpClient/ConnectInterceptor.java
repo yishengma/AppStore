@@ -1,7 +1,4 @@
-package piratehat.HttpClient;
-
-import java.io.IOException;
-import java.net.Socket;
+package piratehat.httpClient;
 
 /**
  * Created by PirateHat on 2019/2/19.

@@ -1,4 +1,4 @@
-package piratehat.HttpClient;
+package piratehat.httpClient;
 
 import java.util.HashMap;
 

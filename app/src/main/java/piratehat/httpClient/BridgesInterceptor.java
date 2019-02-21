@@ -1,10 +1,10 @@
-package piratehat.HttpClient;
+package piratehat.httpClient;
 
 /**
  * Created by PirateHat on 2019/2/19.
  */
 
-public class BridgeInterceptor implements Interceptor {
+public class BridgesInterceptor implements Interceptor {
     private final boolean DEBUG = true;
 
     @Override

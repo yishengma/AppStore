@@ -10,10 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 
-import okhttp3.OkHttpClient;
-import piratehat.HttpClient.HttpClient;
-import piratehat.HttpClient.Request;
-import piratehat.HttpClient.Response;
+import piratehat.httpClient.HttpClient;
+import piratehat.httpClient.Request;
+import piratehat.httpClient.Response;
 import piratehat.appstore.utils.CloseQuicklyUtil;
 
 /**

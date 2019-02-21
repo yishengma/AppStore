@@ -1,4 +1,4 @@
-package piratehat.HttpClient;
+package piratehat.httpClient;
 
 /**
  * Created by PirateHat on 2019/2/18.

@@ -1,7 +1,6 @@
-package piratehat.HttpClient;
+package piratehat.httpClient;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 
 /**

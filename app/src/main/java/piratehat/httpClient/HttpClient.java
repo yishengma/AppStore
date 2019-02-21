@@ -1,9 +1,7 @@
-package piratehat.HttpClient;
+package piratehat.httpClient;
 
-import android.content.Intent;
 import android.support.annotation.Nullable;
 
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;

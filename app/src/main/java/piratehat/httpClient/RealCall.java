@@ -1,4 +1,4 @@
-package piratehat.HttpClient;
+package piratehat.httpClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,7 +74,7 @@ public class RealCall implements Call {
         List<Interceptor> interceptors = new ArrayList<>();
         interceptors.addAll(mHttpClient.interceptors);
         interceptors.add(new RetryInterceptor());
-        interceptors.add(new BridgeInterceptor());
+        interceptors.add(new BridgesInterceptor());
         interceptors.add(new ConnectInterceptor());
         Interceptor.Chain chain = new RealInterceptorChain(mHttpClient,mRequest,interceptors,0);
         return chain.proceed(mRequest);
